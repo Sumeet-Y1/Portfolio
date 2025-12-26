@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sumeet Yadav - Backend Developer</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --orange: #ff6b35;
+            --gold: #f7931e;
+            --yellow: #ffd93d;
+            --dark: #0a0a0f;
+            --dark-light: #1a1420;
+        }
+
+        body {
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--dark);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            backdrop-filter: blur(20px);
+            background: rgba(10, 10, 15, 0.9);
+            border-bottom: 2px solid;
+            border-image: linear-gradient(90deg, var(--orange), var(--gold), var(--yellow)) 1;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(255, 107, 53, 0.4);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 800;
+            font-family: 'Sora', sans-serif;
+            background: linear-gradient(135deg, var(--orange), var(--gold), var(--yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 3s ease infinite;
+            filter: drop-shadow(0 0 20px rgba(251, 191, 36, 0.8));
+            letter-spacing: 2px;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+            text-shadow: 0 0 15px rgba(247, 147, 30, 0.8);
+        }
+
+        .nav-links a:hover::before { width: 100%; }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 5% 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            width: 100%;
+        }
+
+        .hero-text { animation: fadeInLeft 1s ease; }
+
+        @keyframes fadeInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .greeting {
+            font-size: 1.3rem;
+            color: #a8a8a8;
+            margin-bottom: 1rem;
+        }
+
+        .hero-title {
+            font-size: 5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-family: 'Sora', sans-serif;
+            background: linear-gradient(135deg, var(--orange), var(--gold), var(--yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease infinite;
+            letter-spacing: -3px;
+        }
+
+        .hero-subtitle {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            font-weight: 600;
+        }
+
+        .hero-description {
+            font-size: 1.1rem;
+            color: #a8a8a8;
+            line-height: 1.8;
+            margin-bottom: 2.5rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Sora', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            color: white;
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 50px rgba(247, 147, 30, 0.7);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #fff;
+            border: 2px solid var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background: var(--gold);
+            transform: translateY(-5px);
+        }
+
+        /* PREMIUM GLASS STATS CARD */
+        .stats-card {
+            background: linear-gradient(135deg,
+                rgba(255, 107, 53, 0.1),
+                rgba(247, 147, 30, 0.1),
+                rgba(255, 217, 61, 0.1));
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 30px;
+            padding: 3rem;
+            animation: fadeInRight 1s ease, floatCard 6s ease-in-out infinite;
+            box-shadow:
+                0 25px 70px rgba(255, 107, 53, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(251, 191, 36, 0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            to { left: 100%; }
+        }
+
+        @keyframes fadeInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-25px); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stat-item {
+            padding: 2rem 1.5rem;
+            background: rgba(26, 20, 32, 0.5);
+            border-radius: 20px;
+            border: 2px solid rgba(251, 191, 36, 0.2);
+            transition: all 0.3s;
+            animation: floatItem 4s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item:nth-child(1) { animation-delay: 0s; }
+        .stat-item:nth-child(2) { animation-delay: 0.5s; }
+        .stat-item:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes floatItem {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px) scale(1.05);
+            border-color: var(--gold);
+            box-shadow: 0 20px 50px rgba(247, 147, 30, 0.6);
+            background: rgba(251, 191, 36, 0.15);
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            font-family: 'Sora', sans-serif;
+            background: linear-gradient(135deg, var(--gold), var(--yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: #a8a8a8;
+            margin-top: 0.5rem;
+            font-weight: 500;
+        }
+
+        section {
+            padding: 6rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header { text-align: center; margin-bottom: 4rem; }
+
+        .section-label {
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+            font-family: 'Sora', sans-serif;
+            margin-bottom: 1rem;
+        }
+
+        .section-title {
+            font-size: 4rem;
+            font-weight: 800;
+            font-family: 'Sora', sans-serif;
+            margin-bottom: 1rem;
+            letter-spacing: -2px;
+        }
+
+        .section-description {
+            font-size: 1.2rem;
+            color: #a8a8a8;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .skills-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-card {
+            background: rgba(26, 20, 32, 0.6);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 20px;
+            padding: 2.5rem;
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--gold);
+            box-shadow: 0 20px 50px rgba(247, 147, 30, 0.4);
+            background: rgba(247, 147, 30, 0.1);
+        }
+
+        .skill-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .skill-icon-wrapper {
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 8px 25px rgba(247, 147, 30, 0.5);
+        }
+
+        .skill-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            font-family: 'Sora', sans-serif;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        .tech-tag {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: rgba(251, 191, 36, 0.15);
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            border: 1px solid rgba(251, 191, 36, 0.3);
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .tech-tag:hover {
+            background: rgba(251, 191, 36, 0.25);
+            border-color: var(--gold);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(247, 147, 30, 0.4);
+        }
+
+        .tech-logo {
+            width: 26px;
+            height: 26px;
+        }
+
+        .projects-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            gap: 3rem;
+        }
+
+        .project-card {
+            background: rgba(26, 20, 32, 0.6);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 25px;
+            overflow: hidden;
+            transition: all 0.4s;
+            backdrop-filter: blur(10px);
+        }
+
+        .project-card:hover {
+            transform: translateY(-15px);
+            border-color: var(--gold);
+            box-shadow: 0 25px 60px rgba(247, 147, 30, 0.5);
+        }
+
+        .project-content { padding: 3rem; }
+
+        .project-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 2.2rem;
+            font-weight: 800;
+            font-family: 'Sora', sans-serif;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
+        }
+
+        .project-date {
+            font-size: 0.9rem;
+            color: #a8a8a8;
+            font-weight: 500;
+        }
+
+        .project-icon {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            box-shadow: 0 10px 30px rgba(247, 147, 30, 0.5);
+        }
+
+        .project-description {
+            color: #a8a8a8;
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+        }
+
+        .project-tech .tech-tag {
+            background: rgba(251, 191, 36, 0.2);
+            border-color: var(--gold);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-link {
+            padding: 0.9rem 1.8rem;
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 700;
+            font-family: 'Sora', sans-serif;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 8px 25px rgba(247, 147, 30, 0.4);
+        }
+
+        .project-link:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(247, 147, 30, 0.6);
+        }
+
+        .project-link-secondary {
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+        }
+
+        .project-link-secondary:hover {
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            color: white;
+        }
+
+        .contact-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .contact-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .contact-item {
+            background: rgba(26, 20, 32, 0.6);
+            border: 2px solid rgba(251, 191, 36, 0.3);
+            border-radius: 18px;
+            padding: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            transition: all 0.3s;
+            text-decoration: none;
+            color: #fff;
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-item:hover {
+            transform: translateX(15px);
+            border-color: var(--gold);
+            box-shadow: 0 15px 40px rgba(247, 147, 30, 0.4);
+            background: rgba(247, 147, 30, 0.1);
+        }
+
+        .contact-icon {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: white;
+            box-shadow: 0 8px 25px rgba(247, 147, 30, 0.4);
+        }
+
+        .contact-details h4 {
+            font-size: 1rem;
+            color: #a8a8a8;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .contact-details p {
+            font-size: 1.15rem;
+            font-weight: 600;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 5%;
+            border-top: 2px solid rgba(251, 191, 36, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-text {
+            color: #a8a8a8;
+            font-size: 1.05rem;
+        }
+
+        .footer-highlight {
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        @media (max-width: 968px) {
+            .hero-container { grid-template-columns: 1fr; text-align: center; }
+            .hero-title { font-size: 3.5rem; }
+            .hero-buttons { justify-content: center; }
+            .stats-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-title { font-size: 2.8rem; }
+            .section-title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+<canvas id="particle-canvas"></canvas>
+
+<nav>
+    <div class="nav-container">
+        <div class="logo">SY</div>
+        <ul class="nav-links">
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </div>
+</nav>
+
+<section class="hero" id="home">
+    <div class="hero-container">
+        <div class="hero-text">
+            <div class="greeting">🛠️ Building the backend, one resilient API at a time</div>
+            <h1 class="hero-title">Sumeet Yadav</h1>
+            <h2 class="hero-subtitle">Backend Developer</h2>
+            <p class="hero-description">
+                Building scalable, secure RESTful APIs with Spring Boot & Java.
+                Passionate about cloud computing, system design, and creating robust
+                enterprise solutions.
+            </p>
+            <div class="hero-buttons">
+                <a href="#projects" class="btn btn-primary">
+                    <i class="fas fa-rocket"></i> View Projects
+                </a>
+                <a href="#contact" class="btn btn-secondary">
+                    <i class="fas fa-envelope"></i> Contact Me
+                </a>
+            </div>
+        </div>
+
+        <div class="stats-card">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">3+</div>
+                    <div class="stat-label">Projects</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">15+</div>
+                    <div class="stat-label">Tech Stack</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Caffeine Addicted</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="skills">
+    <div class="section-header">
+        <div class="section-label">⚔️ MY ARSENAL</div>
+        <h2 class="section-title">Tech Stack</h2>
+        <p class="section-description">
+            Powerful technologies and tools I use to build scalable enterprise solutions.
+        </p>
+    </div>
+
+    <div class="skills-grid">
+        <div class="skill-card">
+            <div class="skill-header">
+                <div class="skill-icon-wrapper">
+                    <i class="fas fa-server"></i>
+                </div>
+                <div class="skill-title">Backend</div>
+            </div>
+            <div class="tech-list">
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" class="tech-logo">
+                    Java
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" class="tech-logo">
+                    Spring Boot
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" class="tech-logo">
+                    Spring Security
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" class="tech-logo">
+                    Spring Data JPA
+                </div>
+                <div class="tech-tag"><i class="fas fa-key" style="color: #f7931e;"></i> JWT</div>
+                <div class="tech-tag"><i class="fas fa-network-wired" style="color: #f7931e;"></i> REST APIs</div>
+            </div>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-header">
+                <div class="skill-icon-wrapper"><i class="fas fa-database"></i></div>
+                <div class="skill-title">Database</div>
+            </div>
+            <div class="tech-list">
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" class="tech-logo">
+                    MySQL
+                </div>
+                <div class="tech-tag"><i class="fas fa-table" style="color: #f7931e;"></i> SQL</div>
+            </div>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-header">
+                <div class="skill-icon-wrapper"><i class="fas fa-cloud"></i></div>
+                <div class="skill-title">Cloud & DevOps</div>
+            </div>
+            <div class="tech-list">
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" class="tech-logo">
+                    AWS EC2
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" class="tech-logo">
+                    Docker
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg" class="tech-logo">
+                    Nginx
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" class="tech-logo">
+                    Linux
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" class="tech-logo">
+                    GitHub
+                </div>
+            </div>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-header">
+                <div class="skill-icon-wrapper"><i class="fas fa-code"></i></div>
+                <div class="skill-title">Frontend</div>
+            </div>
+            <div class="tech-list">
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" class="tech-logo">
+                    HTML5
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" class="tech-logo">
+                    CSS3
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="tech-logo">
+                    JavaScript
+                </div>
+            </div>
+        </div>
+
+        <div class="skill-card">
+            <div class="skill-header">
+                <div class="skill-icon-wrapper"><i class="fas fa-tools"></i></div>
+                <div class="skill-title">Tools</div>
+            </div>
+            <div class="tech-list">
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" class="tech-logo">
+                    Maven
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/intellij/intellij-original.svg" class="tech-logo">
+                    IntelliJ
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postman/postman-original.svg" class="tech-logo">
+                    Postman
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg" class="tech-logo">
+                    Jira
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="projects">
+    <div class="section-header">
+        <div class="section-label">PORTFOLIO</div>
+        <h2 class="section-title">Featured Projects</h2>
+        <p class="section-description">
+            Production-ready applications built with modern technologies.
+        </p>
+    </div>
+
+    <div class="projects-container">
+        <div class="project-card">
+            <div class="project-content">
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">AureumPicks</h3>
+                        <p class="project-date">November 2025</p>
+                    </div>
+                    <div class="project-icon"><i class="fas fa-shopping-cart"></i></div>
+                </div>
+                <p class="project-description">
+                    Premium e-commerce platform featuring JWT authentication, email OTP verification via Brevo API,
+                    complete shopping cart management, and secure payment processing.
+                </p>
+                <div class="project-tech">
+                    <div class="tech-tag">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" class="tech-logo">
+                        Spring Boot
+                    </div>
+                    <div class="tech-tag">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" class="tech-logo">
+                        Spring Security
+                    </div>
+                    <div class="tech-tag"><i class="fas fa-key" style="color: #f7931e;"></i> JWT</div>
+                    <div class="tech-tag">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" class="tech-logo">
+                        MySQL
+                    </div>
+                    <div class="tech-tag"><i class="fas fa-envelope" style="color: #f7931e;"></i> Brevo API</div>
+                </div>
+                <div class="project-links">
+                    <a href="https://aureumpicks.up.railway.app" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i> Live Demo
+                    </a>
+                    <a href="https://github.com/Sumeet-Y1/ecommerce--fullstack" target="_blank" class="project-link project-link-secondary">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-content">
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">Student Management API</h3>
+                        <p class="project-date">October 2025</p>
+                    </div>
+                    <div class="project-icon"><i class="fas fa-users-cog"></i></div>
+                </div>
+                <p class="project-description">
+                    RESTful API for comprehensive student data management with full CRUD operations. Implemented
+                    layered architecture pattern for maximum maintainability.
+                </p>
+                <div class="project-tech">
+                    <div class="tech-tag">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" class="tech-logo">
+                        Spring Boot
+                    </div>
+                    <div class="tech-tag">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" class="tech-logo">
+                        Spring Data JPA
+                    </div>
+                    <div class="tech-tag">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" class="tech-logo">
+                        MySQL
+                    </div>
+                    <div class="tech-tag">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/maven/maven-original.svg" class="tech-logo">
+                        Maven
+                    </div>
+                </div>
+                <div class="project-links">
+                    <a href="https://github.com/Sumeet-Y1/student-api-springboot" target="_blank" class="project-link">
+                        <i class="fab fa-github"></i> View Code
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="project-card">
+            <div class="project-content">
+                <div class="project-header">
+                    <div>
+                        <h3 class="project-title">Portfolio Website</h3>
+                        <p class="project-date">December 2025</p>
+                    </div>
+                    <div class="project-icon"><i class="fas fa-laptop-code"></i></div>
+                </div>
+                <p class="project-description">
+                    Modern, responsive personal portfolio showcasing projects and professional experience with smooth animations.
+                </p>
+                <div class="project-tech">
+                    <div class="tech-tag">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" class="tech-logo">
+                        HTML5
+                    </div>
+                    <div class="tech-tag">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" class="tech-logo">
+                        CSS3
+                    </div>
+                    <div class="tech-tag">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" class="tech-logo">
+                        JavaScript
+                    </div>
+                </div>
+                <div class="project-links">
+                    <a href="https://sumeetyadav-dev.netlify.app" target="_blank" class="project-link">
+                        <i class="fas fa-external-link-alt"></i> Visit Site
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="section-header">
+        <div class="section-label">GET IN TOUCH</div>
+        <h2 class="section-title">Let's Connect</h2>
+        <p class="section-description">
+            I'm always open to discussing new projects, creative ideas, or opportunities.
+        </p>
+    </div>
+
+    <div class="contact-container">
+        <div class="contact-grid">
+            <a href="mailto:sumeety202@gmail.com" class="contact-item">
+                <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                <div class="contact-details">
+                    <h4>Email</h4>
+                    <p>sumeety202@gmail.com</p>
+                </div>
+            </a>
+
+            <a href="https://linkedin.com/in/sumeet-backenddev" target="_blank" class="contact-item">
+                <div class="contact-icon"><i class="fab fa-linkedin-in"></i></div>
+                <div class="contact-details">
+                    <h4>LinkedIn</h4>
+                    <p>linkedin.com/in/sumeet-backenddev</p>
+                </div>
+            </a>
+
+            <a href="https://github.com/Sumeet-Y1" target="_blank" class="contact-item">
+                <div class="contact-icon"><i class="fab fa-github"></i></div>
+                <div class="contact-details">
+                    <h4>GitHub</h4>
+                    <p>github.com/Sumeet-Y1</p>
+                </div>
+            </a>
+
+            <div class="contact-item">
+                <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="contact-details">
+                    <h4>Location</h4>
+                    <p>Mumbai, Maharashtra, India</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p class="footer-text">
+        © 2025 <span class="footer-highlight">Sumeet Yadav</span>. Built with passion and lots of ☕ coffee.
+    </p>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+    const canvas = document.getElementById('particle-canvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    camera.position.z = 5;
+
+    const particlesGeometry = new THREE.BufferGeometry();
+    const particlesCount = 2000;
+    const posArray = new Float32Array(particlesCount * 3);
+    const colorArray = new Float32Array(particlesCount * 3);
+    const velocityArray = new Float32Array(particlesCount * 3);
+
+    for(let i = 0; i < particlesCount * 3; i += 3) {
+        posArray[i] = (Math.random() - 0.5) * 20;
+        posArray[i + 1] = (Math.random() - 0.5) * 20;
+        posArray[i + 2] = (Math.random() - 0.5) * 20;
+
+        const colorChoice = Math.random();
+        if(colorChoice < 0.33) {
+            colorArray[i] = 1.0; colorArray[i + 1] = 0.42; colorArray[i + 2] = 0.21; // Orange
+        } else if(colorChoice < 0.66) {
+            colorArray[i] = 0.97; colorArray[i + 1] = 0.58; colorArray[i + 2] = 0.12; // Gold
+        } else {
+            colorArray[i] = 1.0; colorArray[i + 1] = 0.85; colorArray[i + 2] = 0.24; // Yellow
+        }
+
+        velocityArray[i] = (Math.random() - 0.5) * 0.02;
+        velocityArray[i + 1] = (Math.random() - 0.5) * 0.02;
+        velocityArray[i + 2] = (Math.random() - 0.5) * 0.02;
+    }
+
+    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    particlesGeometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+
+    const particlesMaterial = new THREE.PointsMaterial({
+        size: 0.02,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.9,
+        blending: THREE.AdditiveBlending
+    });
+
+    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+    scene.add(particlesMesh);
+
+    let mouseX = 0, mouseY = 0, targetMouseX = 0, targetMouseY = 0, mouseSpeed = 1;
+
+    document.addEventListener('mousemove', (e) => {
+        const prevX = targetMouseX, prevY = targetMouseY;
+        targetMouseX = (e.clientX / window.innerWidth) - 0.5;
+        targetMouseY = -(e.clientY / window.innerHeight) + 0.5;
+        const deltaX = targetMouseX - prevX, deltaY = targetMouseY - prevY;
+        mouseSpeed = Math.min(Math.sqrt(deltaX * deltaX + deltaY * deltaY) * 50, 5);
+    });
+
+    document.addEventListener('touchmove', (e) => {
+        if (e.touches.length > 0) {
+            const touch = e.touches[0];
+            const prevX = targetMouseX, prevY = targetMouseY;
+            targetMouseX = (touch.clientX / window.innerWidth) - 0.5;
+            targetMouseY = -(touch.clientY / window.innerHeight) + 0.5;
+            const deltaX = targetMouseX - prevX, deltaY = targetMouseY - prevY;
+            mouseSpeed = Math.min(Math.sqrt(deltaX * deltaX + deltaY * deltaY) * 50, 5);
+        }
+    });
+
+    function animate() {
+        requestAnimationFrame(animate);
+        mouseX += (targetMouseX - mouseX) * 0.05;
+        mouseY += (targetMouseY - mouseY) * 0.05;
+        const positions = particlesGeometry.attributes.position.array;
+        for(let i = 0; i < particlesCount * 3; i += 3) {
+            positions[i] += velocityArray[i] * (1 + mouseSpeed * 0.5);
+            positions[i + 1] += velocityArray[i + 1] * (1 + mouseSpeed * 0.5);
+            positions[i + 2] += velocityArray[i + 2] * (1 + mouseSpeed * 0.5);
+            if(Math.abs(positions[i]) > 10) { positions[i] = (Math.random() - 0.5) * 20; velocityArray[i] *= -1; }
+            if(Math.abs(positions[i + 1]) > 10) { positions[i + 1] = (Math.random() - 0.5) * 20; velocityArray[i + 1] *= -1; }
+            if(Math.abs(positions[i + 2]) > 10) { positions[i + 2] = (Math.random() - 0.5) * 20; velocityArray[i + 2] *= -1; }
+        }
+        particlesGeometry.attributes.position.needsUpdate = true;
+        particlesMesh.rotation.y += mouseX * 0.05 * (1 + mouseSpeed * 0.2);
+        particlesMesh.rotation.x += mouseY * 0.05 * (1 + mouseSpeed * 0.2);
+        if(mouseSpeed < 0.1) { particlesMesh.rotation.y += 0.001; particlesMesh.rotation.x += 0.0005; }
+        mouseSpeed *= 0.95;
+        renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', function (e) {
+            e.preventDefault();
+            const t = document.querySelector(this.getAttribute('href'));
+            if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+</script>
+</body>
+</html>
