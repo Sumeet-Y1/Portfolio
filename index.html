@@ -588,6 +588,164 @@
             visibility: visible;
         }
 
+        /* Experience Section */
+.experience-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    gap: 2rem;
+}
+
+.experience-card {
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 2.5rem;
+    transition: all 0.3s;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.experience-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, #ffffff, transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.experience-card:hover {
+    transform: translateY(-10px);
+    border-color: #ffffff;
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.2);
+}
+
+.experience-card:hover::before {
+    opacity: 1;
+}
+
+.experience-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    gap: 1.5rem;
+}
+
+.experience-company {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.company-logo {
+    width: 60px;
+    height: 60px;
+    background: #ffffff;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    flex-shrink: 0;
+}
+
+.company-logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.experience-info h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+}
+
+.experience-role {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.experience-date {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    white-space: nowrap;
+}
+
+.experience-description {
+    margin-bottom: 1.5rem;
+}
+
+.experience-description ul {
+    list-style: none;
+    padding: 0;
+}
+
+.experience-description li {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    padding-left: 1.5rem;
+    position: relative;
+    margin-bottom: 0.75rem;
+}
+
+.experience-description li::before {
+    content: '▹';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-weight: bold;
+}
+
+.experience-footer {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.certificate-link {
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: var(--text-primary);
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s;
+    font-size: 0.9rem;
+}
+
+.certificate-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.3);
+    transform: translateY(-2px);
+}
+
+.certificate-link i {
+    font-size: 1rem;
+}
+
+@media (max-width: 768px) {
+    .experience-header {
+        flex-direction: column;
+    }
+
+    .experience-date {
+        align-self: flex-start;
+    }
+}
+
         /* Responsive */
         @media (max-width: 968px) {
             .nav-links {
@@ -641,6 +799,7 @@
         <ul class="nav-links" id="navLinks">
             <li><a href="#home">Home</a></li>
             <li><a href="#skills">Skills</a></li>
+            <li><a href="#experience">Experience</a></li>
             <li><a href="#projects">Projects</a></li>
             <li><a href="#contact">Contact</a></li>
         </ul>
@@ -824,6 +983,106 @@
                     <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jira/jira-original.svg" class="tech-logo">
                     Jira
                 </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="experience">
+    <div class="section-header">
+        <div class="section-badge">Virtual Experiences</div>
+        <h2 class="section-title">Job Simulations</h2>
+        <p class="section-description">
+            Hands-on experience through industry-leading virtual job simulations on Forage platform.
+        </p>
+    </div>
+
+    <div class="experience-container">
+        <!-- JPMorgan Chase Experience -->
+        <div class="experience-card">
+            <div class="experience-header">
+                <div class="experience-company">
+                    <div class="company-logo">
+                        <img src="https://media.designrush.com/inspiration_images/757008/conversions/JPMorgan-Chase-Logo-SVG-desktop.jpg" alt="JPMorgan Chase">
+                    </div>
+                    <div class="experience-info">
+                        <h3>JPMorgan Chase</h3>
+                        <p class="experience-role">Software Engineering Job Simulation</p>
+                    </div>
+                </div>
+                <div class="experience-date">January 2026</div>
+            </div>
+            <div class="experience-description">
+                <ul>
+                    <li>Integrated Kafka into a Spring Boot microservice to consume and deserialize high-volume transaction messages using a configurable topic and embedded Kafka test framework.</li>
+                    <li>Implemented transaction validation and persistence logic with Spring Data JPA and an H2 SQL database, including entity modeling and balance updates across relational User records.</li>
+                    <li>Connected the service to an external REST Incentive API using RestTemplate, processing incentive responses and incorporating them into transactional workflows.</li>
+                    <li>Developed a REST endpoint for querying user balances, returning JSON responses through a Spring controller while maintaining clean architectural boundaries.</li>
+                    <li>Verified system behavior using Maven test suites and debugger-driven inspection, ensuring reliability across message ingestion, database operations, and external API interactions.</li>
+                </ul>
+            </div>
+            <div class="experience-footer">
+                <a href="https://www.theforage.com/completion-certificates/Sj7temL583QAYpHXD/E6McHJDKsQYh79moz_Sj7temL583QAYpHXD_68cb08cb0b0b9899833e6350_1769868873310_completion_certificate.pdf" class="certificate-link" target="_blank">
+                    <i class="fas fa-certificate"></i>
+                    View Certificate
+                </a>
+            </div>
+        </div>
+
+        <!-- AWS Experience -->
+        <div class="experience-card">
+            <div class="experience-header">
+                <div class="experience-company">
+                    <div class="company-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/Amazon_Web_Services_Logo.svg" alt="AWS">
+                    </div>
+                    <div class="experience-info">
+                        <h3>Amazon Web Services (AWS)</h3>
+                        <p class="experience-role">APAC Solutions Architecture Virtual Experience</p>
+                    </div>
+                </div>
+                <div class="experience-date">February 2026</div>
+            </div>
+            <div class="experience-description">
+                <ul>
+                    <li>Designed a simple and scalable hosting architecture based on Elastic Beanstalk for a client experiencing significant growth and slow response times.</li>
+                    <li>Described my proposed architecture in plain language ensuring my client understood how it works and how costs will be calculated for it.</li>
+                </ul>
+            </div>
+            <div class="experience-footer">
+                <a href="https://www.theforage.com/completion-certificates/pmnMSL4QiQ9JCgE3W/kkE9HyeNcw6rwCRGw_pmnMSL4QiQ9JCgE3W_68cb08cb0b0b9899833e6350_1769915156093_completion_certificate.pdf" class="certificate-link" target="_blank">
+                    <i class="fas fa-certificate"></i>
+                    View Certificate
+                </a>
+            </div>
+        </div>
+
+        <!-- Electronic Arts Experience -->
+        <div class="experience-card">
+            <div class="experience-header">
+                <div class="experience-company">
+                    <div class="company-logo">
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Electronic-Arts-Logo.svg" alt="Electronic Arts">
+                    </div>
+                    <div class="experience-info">
+                        <h3>Electronic Arts</h3>
+                        <p class="experience-role">Product Management Job Simulation</p>
+                    </div>
+                </div>
+                <div class="experience-date">February 2026</div>
+            </div>
+            <div class="experience-description">
+                <ul>
+                    <li>Completed a job simulation where I developed a solid understanding of different KPIs, and selected the most appropriate KPIs for measuring and assessing specific business problems related to a strategy RPG mobile game.</li>
+                    <li>Demonstrated my knowledge of key performance indicators within the video game industry.</li>
+                    <li>Broke down tasks for creating a data-driven video game presentation.</li>
+                </ul>
+            </div>
+            <div class="experience-footer">
+                <a href="https://www.theforage.com/completion-certificates/j43dGscQHtJJ57N54/5genWYpfo5b57G7yv_j43dGscQHtJJ57N54_68cb08cb0b0b9899833e6350_1769936642285_completion_certificate.pdf" class="certificate-link" target="_blank">
+                    <i class="fas fa-certificate"></i>
+                    View Certificate
+                </a>
             </div>
         </div>
     </div>
