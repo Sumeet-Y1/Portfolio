@@ -117,6 +117,233 @@
             transition: all 0.3s;
         }
 
+
+/* Under Construction Project Card Styles */
+.project-card.under-construction {
+    background: rgba(10, 10, 10, 0.8);
+    border: 1px solid rgba(255, 165, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.project-card.under-construction::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, transparent, #ff9500, transparent);
+    animation: slide-shine 3s infinite;
+    z-index: 1;
+}
+
+@keyframes slide-shine {
+    0% { left: -100%; }
+    100% { left: 100%; }
+}
+
+.project-card.under-construction::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 15px,
+        rgba(255, 165, 0, 0.03) 15px,
+        rgba(255, 165, 0, 0.03) 30px
+    );
+    animation: move-stripes 25s linear infinite;
+    z-index: 1;
+    pointer-events: none;
+}
+
+@keyframes move-stripes {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(60px, 60px); }
+}
+
+.under-construction-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #ff9500 0%, #ff5e00 100%);
+    border-radius: 50px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    box-shadow: 0 5px 20px rgba(255, 165, 0, 0.4);
+    animation: pulse-glow 2s ease-in-out infinite;
+    position: relative;
+    z-index: 10;
+    margin-bottom: 1rem;
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        box-shadow: 0 5px 20px rgba(255, 165, 0, 0.4);
+        transform: scale(1);
+    }
+    50% {
+        box-shadow: 0 8px 30px rgba(255, 165, 0, 0.6);
+        transform: scale(1.03);
+    }
+}
+
+.construction-icon {
+    font-size: 1.1rem;
+    animation: hammer-swing 1.5s ease-in-out infinite;
+    display: inline-block;
+    transform-origin: bottom right;
+}
+
+@keyframes hammer-swing {
+    0%, 100% { transform: rotate(0deg); }
+    10% { transform: rotate(-25deg); }
+    20% { transform: rotate(10deg); }
+    30% { transform: rotate(-15deg); }
+    40% { transform: rotate(5deg); }
+    50% { transform: rotate(0deg); }
+}
+
+.construction-status {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 165, 0, 0.08);
+    border-left: 3px solid #ff9500;
+    border-radius: 8px;
+    position: relative;
+    z-index: 10;
+}
+
+.warning-icon {
+    font-size: 1.3rem;
+    animation: blink 1.5s ease-in-out infinite;
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}
+
+.construction-status-text {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.construction-status-text strong {
+    color: #ff9500;
+    font-weight: 700;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 6px;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 1.2rem 0 0.5rem 0;
+    position: relative;
+    z-index: 10;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff9500 0%, #ff5e00 100%);
+    border-radius: 10px;
+    width: 70%;
+    position: relative;
+    box-shadow: 0 0 10px rgba(255, 165, 0, 0.5);
+    animation: progress-pulse 2s ease-in-out infinite;
+}
+
+.progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(255, 255, 255, 0.3),
+        transparent
+    );
+    animation: shimmer-progress 2.5s infinite;
+}
+
+@keyframes shimmer-progress {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+@keyframes progress-pulse {
+    0%, 100% { box-shadow: 0 0 10px rgba(255, 165, 0, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(255, 165, 0, 0.8); }
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-top: 0.4rem;
+    position: relative;
+    z-index: 10;
+}
+
+.progress-percentage {
+    color: #ff9500;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+}
+
+.coming-soon-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--text-secondary);
+    font-style: italic;
+    font-size: 0.85rem;
+    margin: 1rem 0;
+    position: relative;
+    z-index: 10;
+}
+
+.rocket-icon {
+    animation: float-rocket 2s ease-in-out infinite;
+}
+
+@keyframes float-rocket {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Make sure content is above animated backgrounds */
+.project-card.under-construction .project-content {
+    position: relative;
+    z-index: 10;
+}
+
+/* Hover effect for under construction card */
+.project-card.under-construction:hover {
+    border-color: rgba(255, 165, 0, 0.6);
+    box-shadow: 0 20px 40px rgba(255, 165, 0, 0.2);
+}
+
         /* Hero Section */
         .hero {
             min-height: 100vh;
@@ -1126,6 +1353,86 @@
         </p>
     </div>
 
+    <!-- PipelineForge - Under Construction -->
+    <div class="project-card under-construction">
+        <div class="project-content">
+            <div class="under-construction-badge">
+                <span class="construction-icon">🔨</span>
+                Building in Progress
+            </div>
+
+            <div class="project-header">
+                <div>
+                    <h3 class="project-title">PipelineForge</h3>
+                    <p class="project-date">Active Development - 2026</p>
+                </div>
+                <div class="project-icon"><i class="fas fa-cogs"></i></div>
+            </div>
+
+            <div class="construction-status">
+                <span class="warning-icon">⚠️</span>
+                <div class="construction-status-text">
+                    <strong>Development Status:</strong> Core infrastructure & microservices architecture implementation in progress
+                </div>
+            </div>
+
+            <p class="project-description">
+                Enterprise-grade async task processing platform with microservices architecture, full CI/CD automation,
+                and AWS infrastructure provisioned via Terraform. Features distributed job processing with SQS,
+                ECS Fargate containerization, real-time CloudWatch monitoring, and automated scaling.
+            </p>
+
+            <div class="progress-bar-container">
+                <div class="progress-bar-fill"></div>
+            </div>
+            <div class="progress-info">
+                <span>Development Progress</span>
+                <span class="progress-percentage">70%</span>
+            </div>
+
+            <div class="coming-soon-badge">
+                <span class="rocket-icon">🚀</span>
+                <span>Expected launch: Q2 2026 | Live demo coming soon</span>
+            </div>
+
+            <div class="project-tech">
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" class="tech-logo">
+                    Java 17
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg" class="tech-logo">
+                    Spring Boot
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" class="tech-logo">
+                    Docker
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" class="tech-logo">
+                    Terraform
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg" class="tech-logo">
+                    AWS
+                </div>
+                <div class="tech-tag">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg" class="tech-logo">
+                    MySQL
+                </div>
+            </div>
+
+            <div class="project-links">
+                <a href="https://github.com/Sumeet-Y1/PipeLine-Forage" target="_blank" class="project-link">
+                    <i class="fab fa-github"></i> View Code
+                </a>
+                <a href="#" id="docLink" class="project-link project-link-secondary">
+                    <i class="fas fa-hammer"></i> Documentation
+                </a>
+            </div>
+        </div>
+    </div>
+
     <div class="projects-container">
         <div class="project-card">
             <div class="project-content">
@@ -1357,6 +1664,41 @@
 <div class="scroll-top" id="scrollTop">
     <i class="fas fa-arrow-up"></i>
 </div>
+
+
+<script>
+    // COC Hammer Sound Effect for Documentation Link
+   document.addEventListener('DOMContentLoaded', function() {
+    const docLink = document.getElementById('docLink');
+
+    if (docLink) {
+        docLink.addEventListener('click', function(e) {
+            e.preventDefault();
+
+            // Add shake animation
+            docLink.style.animation = 'shake 0.5s';
+
+            // Open documentation after animation
+            setTimeout(() => {
+                window.open('https://documentation-underconstruction.netlify.app/', '_blank');
+                docLink.style.animation = '';
+            }, 300);
+        });
+    }
+});
+
+// Add shake animation
+const style = document.createElement('style');
+style.textContent = `
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+`;
+document.head.appendChild(style);
+</script>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
