@@ -1,4 +1,4 @@
-# 🌌 Sumeet Yadav — Portfolio
+# 🌌 Sumeet Yadav - Portfolio
 
 > *Chasing the Horizon*
 
@@ -28,10 +28,10 @@ A multi-page personal portfolio built with plain HTML, CSS, and JavaScript. Feat
 ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat&logo=javascript&logoColor=black)
 ![Three.js](https://img.shields.io/badge/Three.js-000000?style=flat&logo=three.js&logoColor=white)
 
-- **Three.js** — animated star particle background
-- **Font Awesome 6** — icons
-- **Google Fonts** — Syne (display) + JetBrains Mono + Inter
-- **Pure CSS** animations — page transitions, proficiency bars, hover effects
+- **Three.js** - animated star particle background
+- **Font Awesome 6** - icons
+- **Google Fonts** - Syne (display) + JetBrains Mono + Inter
+- **Pure CSS** animations - page transitions, proficiency bars, hover effects
 - Zero frameworks, zero dependencies beyond the above CDN links
 
 ---
@@ -54,7 +54,7 @@ portfolio/
 
 ## Run Locally
 
-No build step needed — just open in a browser:
+No build step needed - just open in a browser:
 
 ```bash
 git clone https://github.com/Sumeet-Y1/Portfolio.git
@@ -69,7 +69,7 @@ Or use Live Server in VS Code for the best experience.
 ## Features
 
 - 🌌 Three.js interactive particle universe (mouse-reactive)
-- 📄 6-page structure — no more single long scroll
+- 📄 6-page structure no more single long scroll
 - ✨ CSS page-enter animations on every page load
 - 📱 Fully responsive with mobile nav drawer
 - 🎮 Gaming & music section with YouTube embed
@@ -81,10 +81,10 @@ Or use Live Server in VS Code for the best experience.
 
 ## Featured Projects
 
-- **PipelineForge** — Enterprise async task processor · AWS + Terraform + Spring Boot *(in dev)*
-- **ProdPulse.AI** — AI log analyzer using Groq's LLaMA 3.3-70B · Spring AI
-- **AureumPicks** — E-commerce platform · JWT + Spring Security + Brevo API
-- **Edapt** — Student management REST API · Spring Data JPA + MySQL
+- **PipelineForge** - Enterprise async task processor · AWS + Terraform + Spring Boot *(in dev)*
+- **ProdPulse.AI** - AI log analyzer using Groq's LLaMA 3.3-70B · Spring AI
+- **AureumPicks** - E-commerce platform · JWT + Spring Security + Brevo API
+- **Edapt** - Student management REST API · Spring Data JPA + MySQL
 
 ---
 
@@ -97,4 +97,4 @@ Or use Live Server in VS Code for the best experience.
 
 ---
 
-<p align="center">Built with passion & ☕ — © 2026 Sumeet Yadav</p>
+<p align="center">Built with passion & ☕ © 2026 Sumeet Yadav</p>
