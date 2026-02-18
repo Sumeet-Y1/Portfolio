@@ -10,7 +10,7 @@
     camera.position.z = 5;
 
     const isMobile = window.innerWidth < 768;
-    const starCount = isMobile ? 600 : 1400;
+    const starCount = isMobile ? 200 : 1000;
     const geo = new THREE.BufferGeometry();
     const pos = new Float32Array(starCount * 3);
     const col = new Float32Array(starCount * 3);
@@ -41,8 +41,8 @@
 
     (function animate() {
         requestAnimationFrame(animate);
-        stars.rotation.y += 0.0003 + mx * 0.008;
-        stars.rotation.x += 0.0002 + my * 0.008;
+        stars.rotation.y += isMobile ? 0.0001 : (0.0003 + mx * 0.008);
+        stars.rotation.x += isMobile ? 0.0001 : (0.0002 + my * 0.008);
         renderer.render(scene, camera);
     })();
 
