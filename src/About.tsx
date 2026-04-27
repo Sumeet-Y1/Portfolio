@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+﻿import { useEffect, useRef, useState, type CSSProperties } from 'react'
 
 type Game = {
   name: string
@@ -13,6 +13,18 @@ type Mindset = {
   number: string
   title: string
   desc: string
+}
+
+type SpotifyState = {
+  status: 'playing' | 'recent' | 'offline'
+  title?: string
+  artist?: string
+  album?: string
+  albumArt?: string
+  songUrl?: string
+  progressMs?: number
+  durationMs?: number
+  playedAt?: string
 }
 
 const GAMES: Game[] = [
@@ -63,6 +75,8 @@ export default function About() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [visible, setVisible] = useState<Record<number, boolean>>({})
+  const [spotify, setSpotify] = useState<SpotifyState | null>(null)
+  const [spotifyLoading, setSpotifyLoading] = useState(true)
   const refs = useRef<(HTMLElement | null)[]>([])
 
   useEffect(() => {
@@ -92,6 +106,40 @@ export default function About() {
       observers.push(observer)
     })
     return () => observers.forEach((observer) => observer.disconnect())
+  }, [])
+
+  useEffect(() => {
+    let active = true
+
+    const loadSpotify = async () => {
+      try {
+        const response = await fetch('/api/spotify')
+        if (!response.ok) {
+          throw new Error('Failed to load Spotify state')
+        }
+
+        const payload = (await response.json()) as SpotifyState
+        if (active) {
+          setSpotify(payload)
+        }
+      } catch {
+        if (active) {
+          setSpotify({ status: 'offline' })
+        }
+      } finally {
+        if (active) {
+          setSpotifyLoading(false)
+        }
+      }
+    }
+
+    loadSpotify()
+    const interval = window.setInterval(loadSpotify, 60000)
+
+    return () => {
+      active = false
+      window.clearInterval(interval)
+    }
   }, [])
 
   const r = (index: number) => (el: HTMLElement | null) => {
@@ -218,8 +266,23 @@ export default function About() {
         .np-bar:nth-child(4) { height: 75%; animation-delay: .08s; }
         .np-text { font-size: .8rem; color: rgba(255,255,255,.45); }
         .np-text strong { color: rgba(255,255,255,.9); }
-        .music-frame { overflow: hidden; border-radius: 18px; background: #000; aspect-ratio: 16 / 9; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,.07); }
-        .music-frame iframe { width: 100%; height: 100%; border: none; display: block; }
+        .spotify-card { margin-bottom: 1rem; padding: 1rem; border-radius: 18px; border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.03); }
+        .spotify-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .95rem; }
+        .spotify-badge { display: inline-flex; align-items: center; gap: .45rem; padding: .38rem .7rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.09); background: rgba(255,255,255,.04); font-family: 'JetBrains Mono', monospace; font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+        .spotify-badge.live { color: #7df7b3; }
+        .spotify-layout { display: grid; grid-template-columns: 88px 1fr; gap: 1rem; align-items: center; }
+        .spotify-art { width: 88px; height: 88px; border-radius: 16px; overflow: hidden; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); display: grid; place-items: center; }
+        .spotify-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .spotify-art-fallback { font-family: 'JetBrains Mono', monospace; font-size: .75rem; letter-spacing: .14em; color: rgba(255,255,255,.45); }
+        .spotify-title { font-size: 1rem; font-weight: 600; color: rgba(255,255,255,.92); }
+        .spotify-meta { margin-top: .3rem; font-size: .82rem; line-height: 1.7; color: rgba(255,255,255,.35); }
+        .spotify-link { display: inline-flex; align-items: center; gap: .45rem; margin-top: .85rem; color: rgba(255,255,255,.72); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+        .spotify-link:hover { color: #fff; }
+        .spotify-progress { margin-top: .95rem; }
+        .spotify-progress-bar { height: 4px; background: rgba(255,255,255,.08); border-radius: 999px; overflow: hidden; }
+        .spotify-progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, rgba(29,185,84,.55), rgba(29,185,84,.95)); }
+        .spotify-progress-meta { margin-top: .45rem; font-family: 'JetBrains Mono', monospace; font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.3); }
+        .spotify-empty { padding: 1rem; border-radius: 18px; border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02); font-size: .85rem; line-height: 1.8; color: rgba(255,255,255,.34); margin-bottom: 1rem; }
         .vibe-tags { display: flex; flex-wrap: wrap; gap: .55rem; }
         .vibe-tag { padding: .4rem .75rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); font-size: .75rem; color: rgba(255,255,255,.48); }
         .mindset-grid { margin-top: 1.6rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
@@ -276,7 +339,7 @@ export default function About() {
             <div className="status-dot" />
             <span className="status-text">The human behind the code</span>
             <div className="status-div" />
-            <span className="status-text">Mumbai · India</span>
+            <span className="status-text">Mumbai Â· India</span>
           </div>
           <h1 className="hero-title">
             <span className="title-row"><span className="title-main">About</span></span>
@@ -385,16 +448,58 @@ export default function About() {
               <div className="np-bars">
                 <div className="np-bar" /><div className="np-bar" /><div className="np-bar" /><div className="np-bar" />
               </div>
-              <div className="np-text"><strong>Preferred focus music</strong> · playlist below</div>
+              <div className="np-text"><strong>Spotify activity</strong> · recent listening</div>
             </div>
-            <div className="music-frame">
-              <iframe
-                src="https://www.youtube.com/embed/kj1IaJc7wMc?rel=0&modestbranding=1&color=white&iv_load_policy=3"
-                title="Lo-fi music playlist"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                allowFullScreen
-              />
-            </div>
+            {spotifyLoading ? (
+              <div className="spotify-empty">Loading your latest Spotify activity...</div>
+            ) : spotify && spotify.status !== 'offline' ? (
+              <div className="spotify-card">
+                <div className="spotify-head">
+                  <span className={`spotify-badge${spotify.status === 'playing' ? ' live' : ''}`}>
+                    {spotify.status === 'playing' ? 'Now playing' : 'Last played'}
+                  </span>
+                  <span className="spotify-badge">Spotify</span>
+                </div>
+                <div className="spotify-layout">
+                  <div className="spotify-art">
+                    {spotify.albumArt ? (
+                      <img src={spotify.albumArt} alt={spotify.album ?? 'Album artwork'} />
+                    ) : (
+                      <span className="spotify-art-fallback">SP</span>
+                    )}
+                  </div>
+                  <div>
+                    <div className="spotify-title">{spotify.title}</div>
+                    <div className="spotify-meta">
+                      {spotify.artist}
+                      {spotify.album ? ` · ${spotify.album}` : ''}
+                    </div>
+                    {spotify.songUrl ? (
+                      <a href={spotify.songUrl} target="_blank" rel="noreferrer" className="spotify-link">
+                        Open in Spotify
+                      </a>
+                    ) : null}
+                    {spotify.status === 'playing' && spotify.durationMs ? (
+                      <div className="spotify-progress">
+                        <div className="spotify-progress-bar">
+                          <div
+                            className="spotify-progress-fill"
+                            style={{ width: `${Math.min(((spotify.progressMs ?? 0) / spotify.durationMs) * 100, 100)}%` }}
+                          />
+                        </div>
+                        <div className="spotify-progress-meta">Listening right now</div>
+                      </div>
+                    ) : spotify.playedAt ? (
+                      <div className="spotify-progress-meta">Last played: {new Date(spotify.playedAt).toLocaleString()}</div>
+                    ) : null}
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="spotify-empty">
+                Spotify activity will appear here after you connect your account and add the Cloudflare environment variables.
+              </div>
+            )}
             <div className="vibe-tags">
               {VIBES.map((tag) => <span key={tag} className="vibe-tag">{tag}</span>)}
             </div>
@@ -437,8 +542,10 @@ export default function About() {
 
       <footer className="footer">
         <span className="footer-logo">&lt;SY/&gt;</span>
-        <span className="footer-copy">© 2026 Sumeet Yadav · Built with passion & coffee</span>
+        <span className="footer-copy">Â© 2026 Sumeet Yadav Â· Built with passion & coffee</span>
       </footer>
     </>
   )
 }
+
+
