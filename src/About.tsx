@@ -270,7 +270,7 @@ export default function About() {
         .spotify-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .95rem; }
         .spotify-badge { display: inline-flex; align-items: center; gap: .45rem; padding: .38rem .7rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.09); background: rgba(255,255,255,.04); font-family: 'JetBrains Mono', monospace; font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.6); }
         .spotify-badge.live { color: #7df7b3; }
-        .spotify-badge img { width: 14px; height: 14px; object-fit: contain; display: block; }
+        .spotify-badge-icon { width: 14px; height: 14px; display: block; flex-shrink: 0; }
         .spotify-layout { display: grid; grid-template-columns: 88px 1fr; gap: 1rem; align-items: center; }
         .spotify-art { width: 88px; height: 88px; border-radius: 16px; overflow: hidden; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); display: grid; place-items: center; }
         .spotify-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -457,10 +457,12 @@ export default function About() {
                     {spotify.status === 'playing' ? 'Now playing' : 'Last played'}
                   </span>
                   <span className="spotify-badge">
-                    <img
-                      src="https://imgs.search.brave.com/eFYlgqqD0zfwUEskV_eYg48bGpf5qj0CJFND_r7H-D4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly8xMDAw/bG9nb3MubmV0L3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDE3LzEx/L1Nwb3RpZnktTG9nby0yMDE1LTUwMHgyODEucG5n"
-                      alt="Spotify"
-                    />
+                    <svg className="spotify-badge-icon" viewBox="0 0 24 24" aria-hidden="true">
+                      <circle cx="12" cy="12" r="12" fill="#1DB954" />
+                      <path d="M17.55 16.76a.75.75 0 0 1-1.03.25c-2.83-1.73-6.39-2.13-10.58-1.18a.75.75 0 0 1-.33-1.46c4.58-1.04 8.51-.58 11.69 1.36a.75.75 0 0 1 .25 1.03Z" fill="#050505" />
+                      <path d="M19.02 13.49a.92.92 0 0 1-1.26.3c-3.24-1.99-8.18-2.57-12.01-1.41a.92.92 0 1 1-.53-1.76c4.35-1.31 9.76-.66 13.5 1.63.43.26.56.82.3 1.24Z" fill="#050505" />
+                      <path d="M19.14 10.08c-3.88-2.31-10.28-2.52-13.99-1.39a1.1 1.1 0 1 1-.64-2.1c4.26-1.3 11.35-1.05 15.76 1.58a1.1 1.1 0 0 1-1.13 1.91Z" fill="#050505" />
+                    </svg>
                     Spotify
                   </span>
                 </div>
