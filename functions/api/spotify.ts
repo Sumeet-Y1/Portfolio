@@ -1,52 +1,55 @@
 interface Env {
-  SPOTIFY_CLIENT_ID?: string
-  SPOTIFY_CLIENT_SECRET?: string
-  SPOTIFY_REFRESH_TOKEN?: string
+  LASTFM_API_KEY?: string
+  LASTFM_USERNAME?: string
 }
 
-type SpotifyTokenResponse = {
-  access_token: string
+type LastFmImage = {
+  '#text'?: string
+  size?: string
 }
 
-type SpotifyImage = {
-  url: string
+type LastFmArtist = {
+  '#text'?: string
+  name?: string
 }
 
-type SpotifyArtist = {
-  name: string
+type LastFmAlbum = {
+  '#text'?: string
 }
 
-type SpotifyAlbum = {
-  name: string
-  images?: SpotifyImage[]
+type LastFmDate = {
+  uts?: string
+  '#text'?: string
 }
 
-type SpotifyTrack = {
-  name: string
-  duration_ms?: number
-  artists: SpotifyArtist[]
-  album: SpotifyAlbum
-  external_urls?: {
-    spotify?: string
+type LastFmTrack = {
+  name?: string
+  artist?: LastFmArtist
+  album?: LastFmAlbum
+  image?: LastFmImage[]
+  url?: string
+  date?: LastFmDate
+  '@attr'?: {
+    nowplaying?: string
   }
 }
 
-type SpotifyCurrentlyPlayingResponse = {
-  is_playing: boolean
-  progress_ms?: number
-  item?: SpotifyTrack | null
+type LastFmRecentTracksResponse = {
+  recenttracks?: {
+    track?: LastFmTrack | LastFmTrack[]
+  }
+  error?: number
+  message?: string
 }
 
-type SpotifyRecentlyPlayedResponse = {
-  items?: Array<{
-    played_at: string
-    track: SpotifyTrack
-  }>
-}
+type MusicState =
+  | { status: 'playing'; title: string; artist: string; album: string; albumArt?: string; songUrl?: string; source: 'lastfm' }
+  | { status: 'recent'; title: string; artist: string; album: string; albumArt?: string; songUrl?: string; playedAt?: string; source: 'lastfm' }
+  | { status: 'misconfigured'; message: string }
+  | { status: 'error'; message: string }
+  | { status: 'offline'; message?: string }
 
-const spotifyTokenUrl = 'https://accounts.spotify.com/api/token'
-const spotifyCurrentlyPlayingUrl = 'https://api.spotify.com/v1/me/player/currently-playing'
-const spotifyRecentlyPlayedUrl = 'https://api.spotify.com/v1/me/player/recently-played?limit=1'
+const lastFmApiRoot = 'https://ws.audioscrobbler.com/2.0/'
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -57,124 +60,104 @@ const json = (body: unknown, status = 200) =>
     },
   })
 
-const encodeBasicAuth = (clientId: string, clientSecret: string) => btoa(`${clientId}:${clientSecret}`)
-
-type SpotifyState =
-  | { status: 'playing'; title: string; artist: string; album: string; albumArt?: string; songUrl?: string; progressMs: number; durationMs: number }
-  | { status: 'recent'; title: string; artist: string; album: string; albumArt?: string; songUrl?: string; playedAt: string }
-  | { status: 'misconfigured'; message: string }
-  | { status: 'error'; message: string }
-  | { status: 'offline'; message?: string }
-
-async function getAccessToken(env: Env) {
-  const clientId = env.SPOTIFY_CLIENT_ID
-  const clientSecret = env.SPOTIFY_CLIENT_SECRET
-  const refreshToken = env.SPOTIFY_REFRESH_TOKEN
-
-  if (!clientId || !clientSecret || !refreshToken) {
-    return {
-      error: json({
-        status: 'misconfigured',
-        message: 'Missing Spotify secrets in Cloudflare Pages. Add SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, and SPOTIFY_REFRESH_TOKEN to the active environment.',
-      } satisfies SpotifyState),
-    }
+const asArray = <T>(value: T | T[] | undefined): T[] => {
+  if (!value) {
+    return []
   }
-
-  const response = await fetch(spotifyTokenUrl, {
-    method: 'POST',
-    headers: {
-      Authorization: `Basic ${encodeBasicAuth(clientId, clientSecret)}`,
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    body: new URLSearchParams({
-      grant_type: 'refresh_token',
-      refresh_token: refreshToken,
-    }),
-  })
-
-  if (!response.ok) {
-    const details = await response.text()
-    return {
-      error: json({
-        status: 'error',
-        message: `Spotify token refresh failed (${response.status}). Regenerate the refresh token with the scopes user-read-currently-playing and user-read-recently-played. ${details}`.trim(),
-      } satisfies SpotifyState),
-      logMessage: `Spotify token refresh failed (${response.status}): ${details}`,
-    }
-  }
-
-  return { token: (await response.json()) as SpotifyTokenResponse }
+  return Array.isArray(value) ? value : [value]
 }
 
-const formatTrack = (track: SpotifyTrack) => ({
-  title: track.name,
-  artist: track.artists.map((artist) => artist.name).join(', '),
-  album: track.album.name,
-  albumArt: track.album.images?.[0]?.url,
-  songUrl: track.external_urls?.spotify,
-})
+const getAlbumArt = (images?: LastFmImage[]) => {
+  const ordered = ['extralarge', 'large', 'medium', 'small']
+  for (const size of ordered) {
+    const url = images?.find((image) => image.size === size)?.['#text']
+    if (url) {
+      return url
+    }
+  }
+  return images?.find((image) => image['#text'])?.['#text']
+}
+
+const buildSpotifySearchUrl = (artist: string, title: string) =>
+  `https://open.spotify.com/search/${encodeURIComponent(`${artist} ${title}`)}`
+
+const formatTrack = (track: LastFmTrack) => {
+  const artist = track.artist?.['#text'] || track.artist?.name || 'Unknown artist'
+  const title = track.name || 'Unknown track'
+
+  return {
+    title,
+    artist,
+    album: track.album?.['#text'] || '',
+    albumArt: getAlbumArt(track.image),
+    songUrl: track.url || buildSpotifySearchUrl(artist, title),
+    playedAt: track.date?.uts ? new Date(Number(track.date.uts) * 1000).toISOString() : undefined,
+  }
+}
 
 export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
+  const apiKey = env.LASTFM_API_KEY
+  const username = env.LASTFM_USERNAME
+
+  if (!apiKey || !username) {
+    return json({
+      status: 'misconfigured',
+      message: 'Missing Last.fm config in Cloudflare Pages. Add LASTFM_API_KEY and LASTFM_USERNAME to the active environment.',
+    } satisfies MusicState)
+  }
+
   try {
-    const token = await getAccessToken(env)
+    const url = new URL(lastFmApiRoot)
+    url.searchParams.set('method', 'user.getrecenttracks')
+    url.searchParams.set('user', username)
+    url.searchParams.set('api_key', apiKey)
+    url.searchParams.set('format', 'json')
+    url.searchParams.set('limit', '1')
+    url.searchParams.set('extended', '1')
 
-    if ('error' in token) {
-      if (token.logMessage) {
-        console.error(token.logMessage)
-      }
-      return token.error
-    }
+    const response = await fetch(url.toString())
 
-    const headers = {
-      Authorization: `Bearer ${token.token.access_token}`,
-    }
-
-    const currentResponse = await fetch(spotifyCurrentlyPlayingUrl, { headers })
-
-    if (currentResponse.ok && currentResponse.status !== 204) {
-      const current = (await currentResponse.json()) as SpotifyCurrentlyPlayingResponse
-
-      if (current.is_playing && current.item) {
-        return json({
-          status: 'playing',
-          ...formatTrack(current.item),
-          progressMs: current.progress_ms ?? 0,
-          durationMs: current.item.duration_ms ?? 0,
-        })
-      }
-    }
-
-    const recentResponse = await fetch(spotifyRecentlyPlayedUrl, { headers })
-
-    if (!recentResponse.ok) {
-      const details = await recentResponse.text()
-      console.error(`Spotify recently played request failed (${recentResponse.status}): ${details}`)
+    if (!response.ok) {
+      const details = await response.text()
+      console.error(`Last.fm request failed (${response.status}): ${details}`)
       return json({
         status: 'error',
-        message: `Spotify recently played request failed (${recentResponse.status}). Your refresh token likely does not have the user-read-recently-played scope yet.`,
-      } satisfies SpotifyState)
+        message: `Last.fm request failed (${response.status}). Check your API key and username.`,
+      } satisfies MusicState)
     }
 
-    const recent = (await recentResponse.json()) as SpotifyRecentlyPlayedResponse
-    const latest = recent.items?.[0]
+    const payload = (await response.json()) as LastFmRecentTracksResponse
+
+    if (payload.error) {
+      console.error(`Last.fm API error (${payload.error}): ${payload.message}`)
+      return json({
+        status: 'error',
+        message: `Last.fm API error (${payload.error}): ${payload.message ?? 'Unable to load music activity.'}`,
+      } satisfies MusicState)
+    }
+
+    const latest = asArray(payload.recenttracks?.track)[0]
 
     if (!latest) {
       return json({
         status: 'offline',
-        message: 'No recently played Spotify tracks were returned for this account yet.',
-      } satisfies SpotifyState)
+        message: 'No Last.fm listening activity was returned for this account yet.',
+      } satisfies MusicState)
     }
 
+    const formatted = formatTrack(latest)
+    const isNowPlaying = latest['@attr']?.nowplaying === 'true'
+
     return json({
-      status: 'recent',
-      ...formatTrack(latest.track),
-      playedAt: latest.played_at,
-    })
+      status: isNowPlaying ? 'playing' : 'recent',
+      ...formatted,
+      source: 'lastfm',
+    } satisfies MusicState)
   } catch (error) {
-    console.error('Unexpected Spotify API error:', error)
+    console.error('Unexpected Last.fm API error:', error)
     return json({
       status: 'error',
-      message: 'Unexpected Spotify error while loading playback data. Check the Cloudflare Functions logs for the exact failure.',
-    } satisfies SpotifyState)
+      message: 'Unexpected Last.fm error while loading music activity. Check the Cloudflare Functions logs for the exact failure.',
+    } satisfies MusicState)
   }
 }

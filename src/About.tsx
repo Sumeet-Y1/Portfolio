@@ -22,10 +22,9 @@ type SpotifyState = {
   album?: string
   albumArt?: string
   songUrl?: string
-  progressMs?: number
-  durationMs?: number
   playedAt?: string
   message?: string
+  source?: 'lastfm'
 }
 
 const GAMES: Game[] = [
@@ -279,9 +278,6 @@ export default function About() {
         .spotify-meta { margin-top: .3rem; font-size: .82rem; line-height: 1.7; color: rgba(255,255,255,.35); }
         .spotify-link { display: inline-flex; align-items: center; gap: .45rem; margin-top: .85rem; color: rgba(255,255,255,.72); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
         .spotify-link:hover { color: #fff; }
-        .spotify-progress { margin-top: .95rem; }
-        .spotify-progress-bar { height: 4px; background: rgba(255,255,255,.08); border-radius: 999px; overflow: hidden; }
-        .spotify-progress-fill { height: 100%; border-radius: inherit; background: linear-gradient(90deg, rgba(29,185,84,.55), rgba(29,185,84,.95)); }
         .spotify-progress-meta { margin-top: .45rem; font-family: 'JetBrains Mono', monospace; font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.3); }
         .spotify-empty { padding: 1rem; border-radius: 18px; border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02); font-size: .85rem; line-height: 1.8; color: rgba(255,255,255,.34); margin-bottom: 1rem; }
         .vibe-tags { display: flex; flex-wrap: wrap; gap: .55rem; }
@@ -442,24 +438,24 @@ export default function About() {
             </div>
             <p className="card-copy">
               Instrumental and ambient music help me stay focused during deep work sessions.
-              It creates the kind of calm environment that supports careful thinking, debugging, and long-form building.
+              This feed shows what I am listening to right now, or the last track I played through my Last.fm activity.
             </p>
             <div className="now-playing">
               <div className="np-dot" />
               <div className="np-bars">
                 <div className="np-bar" /><div className="np-bar" /><div className="np-bar" /><div className="np-bar" />
               </div>
-              <div className="np-text"><strong>Spotify activity</strong> · recent listening</div>
+              <div className="np-text"><strong>Music activity</strong> · live from Last.fm</div>
             </div>
             {spotifyLoading ? (
-              <div className="spotify-empty">Loading your latest Spotify activity...</div>
+              <div className="spotify-empty">Loading your latest music activity...</div>
             ) : spotify && (spotify.status === 'playing' || spotify.status === 'recent') ? (
               <div className="spotify-card">
                 <div className="spotify-head">
                   <span className={`spotify-badge${spotify.status === 'playing' ? ' live' : ''}`}>
                     {spotify.status === 'playing' ? 'Now playing' : 'Last played'}
                   </span>
-                  <span className="spotify-badge">Spotify</span>
+                  <span className="spotify-badge">Last.fm</span>
                 </div>
                 <div className="spotify-layout">
                   <div className="spotify-art">
@@ -477,19 +473,11 @@ export default function About() {
                     </div>
                     {spotify.songUrl ? (
                       <a href={spotify.songUrl} target="_blank" rel="noreferrer" className="spotify-link">
-                        Open in Spotify
+                        Open track
                       </a>
                     ) : null}
-                    {spotify.status === 'playing' && spotify.durationMs ? (
-                      <div className="spotify-progress">
-                        <div className="spotify-progress-bar">
-                          <div
-                            className="spotify-progress-fill"
-                            style={{ width: `${Math.min(((spotify.progressMs ?? 0) / spotify.durationMs) * 100, 100)}%` }}
-                          />
-                        </div>
-                        <div className="spotify-progress-meta">Listening right now</div>
-                      </div>
+                    {spotify.status === 'playing' ? (
+                      <div className="spotify-progress-meta">Listening right now</div>
                     ) : spotify.playedAt ? (
                       <div className="spotify-progress-meta">Last played: {new Date(spotify.playedAt).toLocaleString()}</div>
                     ) : null}
@@ -498,7 +486,7 @@ export default function About() {
               </div>
             ) : (
               <div className="spotify-empty">
-                {spotify?.message ?? 'Spotify activity will appear here after you connect your account and add the Cloudflare environment variables.'}
+                {spotify?.message ?? 'Music activity will appear here after you connect Last.fm and add LASTFM_API_KEY and LASTFM_USERNAME in Cloudflare Pages.'}
               </div>
             )}
             <div className="vibe-tags">
