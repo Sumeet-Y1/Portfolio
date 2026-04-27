@@ -270,6 +270,7 @@ export default function About() {
         .spotify-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .95rem; }
         .spotify-badge { display: inline-flex; align-items: center; gap: .45rem; padding: .38rem .7rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.09); background: rgba(255,255,255,.04); font-family: 'JetBrains Mono', monospace; font-size: .64rem; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.6); }
         .spotify-badge.live { color: #7df7b3; }
+        .spotify-badge img { width: 14px; height: 14px; object-fit: contain; display: block; }
         .spotify-layout { display: grid; grid-template-columns: 88px 1fr; gap: 1rem; align-items: center; }
         .spotify-art { width: 88px; height: 88px; border-radius: 16px; overflow: hidden; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.08); display: grid; place-items: center; }
         .spotify-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
@@ -438,14 +439,14 @@ export default function About() {
             </div>
             <p className="card-copy">
               Instrumental and ambient music help me stay focused during deep work sessions.
-              This feed shows what I am listening to right now, or the last track I played through my Last.fm activity.
+              This section shows what I am listening to right now, or the last song that was in rotation while I was building.
             </p>
             <div className="now-playing">
               <div className="np-dot" />
               <div className="np-bars">
                 <div className="np-bar" /><div className="np-bar" /><div className="np-bar" /><div className="np-bar" />
               </div>
-              <div className="np-text"><strong>Music activity</strong> · live from Last.fm</div>
+              <div className="np-text"><strong>Spotify activity</strong> · recent listening</div>
             </div>
             {spotifyLoading ? (
               <div className="spotify-empty">Loading your latest music activity...</div>
@@ -455,7 +456,13 @@ export default function About() {
                   <span className={`spotify-badge${spotify.status === 'playing' ? ' live' : ''}`}>
                     {spotify.status === 'playing' ? 'Now playing' : 'Last played'}
                   </span>
-                  <span className="spotify-badge">Last.fm</span>
+                  <span className="spotify-badge">
+                    <img
+                      src="https://imgs.search.brave.com/eFYlgqqD0zfwUEskV_eYg48bGpf5qj0CJFND_r7H-D4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly8xMDAw/bG9nb3MubmV0L3dw/LWNvbnRlbnQvdXBs/b2Fkcy8yMDE3LzEx/L1Nwb3RpZnktTG9nby0yMDE1LTUwMHgyODEucG5n"
+                      alt="Spotify"
+                    />
+                    Spotify
+                  </span>
                 </div>
                 <div className="spotify-layout">
                   <div className="spotify-art">
