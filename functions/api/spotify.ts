@@ -59,13 +59,25 @@ const json = (body: unknown, status = 200) =>
 
 const encodeBasicAuth = (clientId: string, clientSecret: string) => btoa(`${clientId}:${clientSecret}`)
 
+type SpotifyState =
+  | { status: 'playing'; title: string; artist: string; album: string; albumArt?: string; songUrl?: string; progressMs: number; durationMs: number }
+  | { status: 'recent'; title: string; artist: string; album: string; albumArt?: string; songUrl?: string; playedAt: string }
+  | { status: 'misconfigured'; message: string }
+  | { status: 'error'; message: string }
+  | { status: 'offline'; message?: string }
+
 async function getAccessToken(env: Env) {
   const clientId = env.SPOTIFY_CLIENT_ID
   const clientSecret = env.SPOTIFY_CLIENT_SECRET
   const refreshToken = env.SPOTIFY_REFRESH_TOKEN
 
   if (!clientId || !clientSecret || !refreshToken) {
-    return null
+    return {
+      error: json({
+        status: 'misconfigured',
+        message: 'Missing Spotify secrets in Cloudflare Pages. Add SPOTIFY_CLIENT_ID, SPOTIFY_CLIENT_SECRET, and SPOTIFY_REFRESH_TOKEN to the active environment.',
+      } satisfies SpotifyState),
+    }
   }
 
   const response = await fetch(spotifyTokenUrl, {
@@ -81,10 +93,17 @@ async function getAccessToken(env: Env) {
   })
 
   if (!response.ok) {
-    throw new Error('Failed to refresh Spotify token')
+    const details = await response.text()
+    return {
+      error: json({
+        status: 'error',
+        message: `Spotify token refresh failed (${response.status}). Regenerate the refresh token with the scopes user-read-currently-playing and user-read-recently-played. ${details}`.trim(),
+      } satisfies SpotifyState),
+      logMessage: `Spotify token refresh failed (${response.status}): ${details}`,
+    }
   }
 
-  return (await response.json()) as SpotifyTokenResponse
+  return { token: (await response.json()) as SpotifyTokenResponse }
 }
 
 const formatTrack = (track: SpotifyTrack) => ({
@@ -99,12 +118,15 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
   try {
     const token = await getAccessToken(env)
 
-    if (!token) {
-      return json({ status: 'offline' })
+    if ('error' in token) {
+      if (token.logMessage) {
+        console.error(token.logMessage)
+      }
+      return token.error
     }
 
     const headers = {
-      Authorization: `Bearer ${token.access_token}`,
+      Authorization: `Bearer ${token.token.access_token}`,
     }
 
     const currentResponse = await fetch(spotifyCurrentlyPlayingUrl, { headers })
@@ -125,14 +147,22 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
     const recentResponse = await fetch(spotifyRecentlyPlayedUrl, { headers })
 
     if (!recentResponse.ok) {
-      throw new Error('Failed to fetch recently played tracks')
+      const details = await recentResponse.text()
+      console.error(`Spotify recently played request failed (${recentResponse.status}): ${details}`)
+      return json({
+        status: 'error',
+        message: `Spotify recently played request failed (${recentResponse.status}). Your refresh token likely does not have the user-read-recently-played scope yet.`,
+      } satisfies SpotifyState)
     }
 
     const recent = (await recentResponse.json()) as SpotifyRecentlyPlayedResponse
     const latest = recent.items?.[0]
 
     if (!latest) {
-      return json({ status: 'offline' })
+      return json({
+        status: 'offline',
+        message: 'No recently played Spotify tracks were returned for this account yet.',
+      } satisfies SpotifyState)
     }
 
     return json({
@@ -140,7 +170,11 @@ export const onRequestGet: PagesFunction<Env> = async ({ env }) => {
       ...formatTrack(latest.track),
       playedAt: latest.played_at,
     })
-  } catch {
-    return json({ status: 'offline' })
+  } catch (error) {
+    console.error('Unexpected Spotify API error:', error)
+    return json({
+      status: 'error',
+      message: 'Unexpected Spotify error while loading playback data. Check the Cloudflare Functions logs for the exact failure.',
+    } satisfies SpotifyState)
   }
 }

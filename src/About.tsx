@@ -16,7 +16,7 @@ type Mindset = {
 }
 
 type SpotifyState = {
-  status: 'playing' | 'recent' | 'offline'
+  status: 'playing' | 'recent' | 'offline' | 'misconfigured' | 'error'
   title?: string
   artist?: string
   album?: string
@@ -25,6 +25,7 @@ type SpotifyState = {
   progressMs?: number
   durationMs?: number
   playedAt?: string
+  message?: string
 }
 
 const GAMES: Game[] = [
@@ -452,7 +453,7 @@ export default function About() {
             </div>
             {spotifyLoading ? (
               <div className="spotify-empty">Loading your latest Spotify activity...</div>
-            ) : spotify && spotify.status !== 'offline' ? (
+            ) : spotify && (spotify.status === 'playing' || spotify.status === 'recent') ? (
               <div className="spotify-card">
                 <div className="spotify-head">
                   <span className={`spotify-badge${spotify.status === 'playing' ? ' live' : ''}`}>
@@ -497,7 +498,7 @@ export default function About() {
               </div>
             ) : (
               <div className="spotify-empty">
-                Spotify activity will appear here after you connect your account and add the Cloudflare environment variables.
+                {spotify?.message ?? 'Spotify activity will appear here after you connect your account and add the Cloudflare environment variables.'}
               </div>
             )}
             <div className="vibe-tags">
