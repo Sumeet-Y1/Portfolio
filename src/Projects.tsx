@@ -28,6 +28,28 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
+    id: 'sphere',
+    title: 'Sphere',
+    date: 'May 2026',
+    icon: 'SPH',
+    summary:
+      'Production-ready social media platform focused on realtime interactions, scalable backend systems, and cloud-based deployment architecture. Features authentication, user search, media uploads, realtime communication, and secure REST APIs with distributed deployment infrastructure.',
+    tech: [
+      { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
+      { label: 'React', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
+      { label: 'AWS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+      { label: 'PostgreSQL', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
+      { label: 'JWT Authentication' },
+      { label: 'WebSockets' },
+      { label: 'REST APIs' },
+    ],
+    links: [
+      { label: 'Live Demo', href: 'https://spherex.pages.dev' },
+      { label: 'Frontend Repo', href: 'https://github.com/Sumeet-Y1/Sphere-Frontend', variant: 'outline' },
+      { label: 'Backend Repo', href: 'https://github.com/Sumeet-Y1/Sphere', variant: 'outline' },
+    ],
+  },
+  {
     id: 'pipelineforge',
     title: 'PipelineForge',
     date: 'Active Development · 2026',
@@ -63,6 +85,7 @@ const PROJECTS: Project[] = [
     tech: [
       { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
       { label: 'Spring AI', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
+      { label: 'React', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
       { label: 'AWS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
       { label: 'Groq API' },
       { label: 'MySQL', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg' },
@@ -70,6 +93,8 @@ const PROJECTS: Project[] = [
     ],
     links: [
       { label: 'Live Demo', href: 'https://prodpulse.pages.dev/login' },
+      { label: 'Frontend Repo', href: 'https://github.com/Sumeet-Y1/ProdPulse-Frontend', variant: 'outline' },
+      { label: 'Backend Repo', href: 'https://github.com/Sumeet-Y1/Sphere', variant: 'outline' },
       { label: 'About', href: 'https://prodpulseai.pages.dev/docs', variant: 'outline' },
     ],
   },
@@ -597,11 +622,11 @@ export default function Projects() {
 
         <div className="summary-grid">
           <div className="summary-card">
-            <strong>5</strong>
+            <strong>6</strong>
             <span>Featured Projects</span>
           </div>
           <div className="summary-card">
-            <strong>3+</strong>
+            <strong>4+</strong>
             <span>Live Public Demos</span>
           </div>
           <div className="summary-card">
