@@ -141,11 +141,13 @@ const PROJECTS: Project[] = [
     date: 'December 2025',
     icon: 'WEB',
     summary:
-      'Modern personal portfolio with a dark cinematic visual system, animated page transitions, and a cleaner presentation for projects, skills, and professional identity.',
+      'Personal portfolio rebuilt with React and TypeScript to present projects, skills, experience, and contact information through a more polished interface with animated transitions and a stronger frontend architecture.',
     tech: [
-      { label: 'HTML5', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg' },
+      { label: 'React', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg' },
+      { label: 'TypeScript', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg' },
+      { label: 'Vite', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg' },
       { label: 'CSS3', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg' },
-      { label: 'JavaScript', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg' },
+      { label: 'Responsive UI' },
     ],
     links: [
       { label: 'View Code', href: 'https://github.com/Sumeet-Y1/Portfolio' },
@@ -154,6 +156,7 @@ const PROJECTS: Project[] = [
 ]
 
 const PROJECT_MARQUEE = ['Production Apps', 'Spring Boot', 'React', 'AWS', 'Cloud Infra', 'Modern UI', 'APIs', 'Microservices']
+const PROJECT_DISPLAY_ORDER = ['pipelineforge', 'sphere', 'prodpulse', 'aureumpicks', 'edapt', 'portfolio']
 
 export default function Projects() {
   const [loaded, setLoaded] = useState(false)
@@ -636,7 +639,9 @@ export default function Projects() {
         </div>
 
         <div className="project-list">
-          {PROJECTS.map((project, index) => (
+          {[...PROJECTS]
+            .sort((a, b) => PROJECT_DISPLAY_ORDER.indexOf(a.id) - PROJECT_DISPLAY_ORDER.indexOf(b.id))
+            .map((project, index) => (
             <article
               key={project.id}
               className={`project-card${project.status ? ' uc' : ''}`}
@@ -696,7 +701,7 @@ export default function Projects() {
                 ))}
               </div>
             </article>
-          ))}
+            ))}
         </div>
       </section>
 
