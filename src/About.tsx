@@ -27,20 +27,6 @@ type SpotifyState = {
   source?: 'lastfm'
 }
 
-type DiscordActivity = {
-  name: string
-  details?: string
-  state?: string
-}
-
-type DiscordState = {
-  status: 'online' | 'idle' | 'dnd' | 'offline'
-  username?: string
-  displayName?: string
-  avatarUrl?: string
-  activities: DiscordActivity[]
-}
-
 const GAMES: Game[] = [
   {
     name: 'Clash of Clans',
@@ -83,8 +69,6 @@ const MINDSET: Mindset[] = [
 ]
 
 const VIBES = ['Ambient Focus', 'Instrumental Mixes', 'Deep Work Sessions', 'Evening Builds', 'Coffee and Code']
-const DISCORD_USER_ID = '807922788635377675'
-const DISCORD_PROFILE_URL = 'https://discord.com/users/807922788635377675'
 
 export default function About() {
   const [loaded, setLoaded] = useState(false)
@@ -93,8 +77,6 @@ export default function About() {
   const [visible, setVisible] = useState<Record<number, boolean>>({})
   const [spotify, setSpotify] = useState<SpotifyState | null>(null)
   const [spotifyLoading, setSpotifyLoading] = useState(true)
-  const [discord, setDiscord] = useState<DiscordState | null>(null)
-  const [discordLoading, setDiscordLoading] = useState(true)
   const refs = useRef<(HTMLElement | null)[]>([])
 
   useEffect(() => {
@@ -160,73 +142,6 @@ export default function About() {
     }
   }, [])
 
-  useEffect(() => {
-    let active = true
-
-    const loadDiscord = async () => {
-      try {
-        const response = await fetch(`https://api.lanyard.rest/v1/users/${DISCORD_USER_ID}`)
-        if (!response.ok) {
-          throw new Error('Failed to load Discord presence')
-        }
-
-        const payload = await response.json() as {
-          success: boolean
-          data?: {
-            discord_status?: 'online' | 'idle' | 'dnd' | 'offline'
-            discord_user?: {
-              username?: string
-              global_name?: string
-              avatar?: string
-            }
-            activities?: Array<{
-              type?: number
-              name: string
-              details?: string
-              state?: string
-            }>
-          }
-        }
-
-        const user = payload.data?.discord_user
-        const avatarHash = user?.avatar
-        const activities = (payload.data?.activities ?? [])
-          .filter((item) => item.type !== 4)
-          .map((item) => ({
-            name: item.name,
-            details: item.details,
-            state: item.state,
-          }))
-
-        if (active) {
-          setDiscord({
-            status: payload.data?.discord_status ?? 'offline',
-            username: user?.username,
-            displayName: user?.global_name,
-            avatarUrl: avatarHash ? `https://cdn.discordapp.com/avatars/${DISCORD_USER_ID}/${avatarHash}.png?size=256` : undefined,
-            activities,
-          })
-        }
-      } catch {
-        if (active) {
-          setDiscord({ status: 'offline', activities: [] })
-        }
-      } finally {
-        if (active) {
-          setDiscordLoading(false)
-        }
-      }
-    }
-
-    loadDiscord()
-    const interval = window.setInterval(loadDiscord, 30000)
-
-    return () => {
-      active = false
-      window.clearInterval(interval)
-    }
-  }, [])
-
   const r = (index: number) => (el: HTMLElement | null) => {
     refs.current[index] = el
   }
@@ -239,7 +154,6 @@ export default function About() {
     { label: 'About', href: '#/about' },
     { label: 'Contact', href: '#/contact' },
   ]
-  const discordActivities = discord?.activities ?? []
 
   return (
     <>
@@ -368,27 +282,6 @@ export default function About() {
         .spotify-progress-meta { margin-top: .45rem; font-family: 'JetBrains Mono', monospace; font-size: .64rem; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.3); }
         .spotify-empty { padding: 1rem; border-radius: 18px; border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.02); font-size: .85rem; line-height: 1.8; color: rgba(255,255,255,.34); margin-bottom: 1rem; }
         .presence-stack { display: grid; gap: 1rem; margin-top: 1.3rem; }
-        .discord-card { display: block; margin-top: 0; padding: 1rem; border-radius: 18px; border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.025); }
-        .discord-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: .9rem; }
-        .discord-layout { display: grid; grid-template-columns: 72px 1fr; gap: 1rem; align-items: start; }
-        .discord-avatar { width: 72px; height: 72px; border-radius: 18px; overflow: hidden; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.05); display: grid; place-items: center; }
-        .discord-avatar img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .discord-avatar-fallback { font-family: 'JetBrains Mono', monospace; font-size: .82rem; letter-spacing: .14em; color: rgba(255,255,255,.45); }
-        .discord-title { font-size: 1rem; font-weight: 600; color: rgba(255,255,255,.92); }
-        .discord-meta { margin-top: .28rem; font-size: .8rem; line-height: 1.7; color: rgba(255,255,255,.35); }
-        .discord-status-row { display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; }
-        .discord-content { min-width: 0; }
-        .discord-activities { display: grid; gap: .7rem; margin-top: .85rem; }
-        .discord-activity { padding: .8rem .9rem; border-radius: 14px; border: 1px solid rgba(255,255,255,.07); background: rgba(255,255,255,.03); }
-        .discord-activity-title { font-size: .82rem; font-weight: 600; color: rgba(255,255,255,.88); }
-        .discord-activity-meta { margin-top: .2rem; font-size: .74rem; line-height: 1.65; color: rgba(255,255,255,.38); word-break: break-word; }
-        .discord-status-dot { width: 9px; height: 9px; border-radius: 50%; flex-shrink: 0; }
-        .discord-status-dot.online { background: #57f287; box-shadow: 0 0 10px rgba(87,242,135,.65); }
-        .discord-status-dot.idle { background: #faa61a; box-shadow: 0 0 10px rgba(250,166,26,.55); }
-        .discord-status-dot.dnd { background: #ed4245; box-shadow: 0 0 10px rgba(237,66,69,.55); }
-        .discord-status-dot.offline { background: #747f8d; box-shadow: 0 0 10px rgba(116,127,141,.35); }
-        .discord-link { display: inline-flex; align-items: center; gap: .45rem; margin-top: .85rem; color: rgba(255,255,255,.72); text-decoration: none; font-family: 'JetBrains Mono', monospace; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
-        .discord-link:hover { color: #fff; }
         .vibe-tags { display: flex; flex-wrap: wrap; gap: .55rem; margin-top: .15rem; }
         .vibe-tag { padding: .4rem .75rem; border-radius: 999px; border: 1px solid rgba(255,255,255,.08); background: rgba(255,255,255,.03); font-size: .75rem; color: rgba(255,255,255,.48); }
         .mindset-grid { margin-top: 1.6rem; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1rem; }
@@ -547,7 +440,7 @@ export default function About() {
             </div>
             <p className="card-copy">
               This section shows the atmosphere around my work sessions.
-              You can see what is playing in the background and what I am actively doing on Discord when I am deep in a build.
+              You can see what is playing in the background when I am deep in a build.
             </p>
             <div className="presence-stack">
               <div className="now-playing">
@@ -607,61 +500,6 @@ export default function About() {
                   {spotify?.message ?? 'Music activity will appear here after you connect Last.fm and add LASTFM_API_KEY and LASTFM_USERNAME in Cloudflare Pages.'}
                 </div>
               )}
-              <div className="discord-card">
-                <div className="discord-head">
-                  <span className={`spotify-badge${discord?.status === 'online' ? ' live' : ''}`}>
-                    <svg className="spotify-badge-icon" viewBox="0 0 24 24" aria-hidden="true">
-                      <path fill="#5865F2" d="M20.32 4.37A19.79 19.79 0 0 0 15.45 3c-.21.38-.46.88-.63 1.28a18.4 18.4 0 0 0-5.65 0A12.8 12.8 0 0 0 8.54 3a19.74 19.74 0 0 0-4.88 1.37C.57 9.06-.25 13.63.16 18.13a19.98 19.98 0 0 0 5.99 3.03c.48-.66.91-1.36 1.28-2.09a13.1 13.1 0 0 1-2.02-.98c.17-.12.34-.25.5-.39 3.9 1.83 8.13 1.83 11.98 0 .17.14.33.27.5.39-.65.39-1.33.72-2.03.98.37.73.8 1.43 1.28 2.09a19.9 19.9 0 0 0 6-3.03c.48-5.22-.82-9.75-3.32-13.76ZM8.67 15.39c-1.17 0-2.13-1.08-2.13-2.4s.94-2.4 2.13-2.4c1.2 0 2.15 1.09 2.13 2.4 0 1.32-.95 2.4-2.13 2.4Zm6.66 0c-1.17 0-2.13-1.08-2.13-2.4s.94-2.4 2.13-2.4c1.2 0 2.15 1.09 2.13 2.4 0 1.32-.94 2.4-2.13 2.4Z" />
-                    </svg>
-                    Discord
-                  </span>
-                  <span className="spotify-badge">Live presence</span>
-                </div>
-                {discordLoading ? (
-                  <div className="spotify-empty">Loading Discord activity...</div>
-                ) : (
-                  <div className="discord-layout">
-                    <div className="discord-avatar">
-                      {discord?.avatarUrl ? (
-                        <img src={discord.avatarUrl} alt={discord.displayName ?? discord.username ?? 'Discord avatar'} />
-                      ) : (
-                        <span className="discord-avatar-fallback">DC</span>
-                      )}
-                    </div>
-                    <div className="discord-content">
-                      <div className="discord-title">{discord?.displayName ?? discord?.username ?? 'Discord profile'}</div>
-                      <div className="discord-meta">
-                        <span className="discord-status-row">
-                          <span className={`discord-status-dot ${discord?.status ?? 'offline'}`} />
-                          <span>{discord?.status ?? 'offline'}</span>
-                        </span>
-                      </div>
-                      {discordActivities.length ? (
-                        <div className="discord-activities">
-                          {discordActivities.slice(0, 3).map((activity) => (
-                            <div
-                              key={`${activity.name}-${activity.details ?? ''}-${activity.state ?? ''}`}
-                              className="discord-activity"
-                            >
-                              <div className="discord-activity-title">{activity.name}</div>
-                              {activity.details || activity.state ? (
-                                <div className="discord-activity-meta">
-                                  {[activity.details, activity.state].filter(Boolean).join(' · ')}
-                                </div>
-                              ) : null}
-                            </div>
-                          ))}
-                        </div>
-                      ) : (
-                        <div className="discord-meta">No live activity detected right now.</div>
-                      )}
-                      <a href={DISCORD_PROFILE_URL} target="_blank" rel="noreferrer" className="discord-link">
-                        View profile
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
             <div className="vibe-tags">
               {VIBES.map((tag) => <span key={tag} className="vibe-tag">{tag}</span>)}
