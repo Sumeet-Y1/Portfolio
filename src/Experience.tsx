@@ -122,12 +122,12 @@ export default function Experience() {
   }
 
   const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'Skills', href: '/skills' },
-    { label: 'Experience', href: '/experience' },
-    { label: 'Projects', href: '/projects' },
-    { label: 'About', href: '/about' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Home', href: '#/' },
+    { label: 'Skills', href: '#/skills' },
+    { label: 'Experience', href: '#/experience' },
+    { label: 'Projects', href: '#/projects' },
+    { label: 'About', href: '#/about' },
+    { label: 'Contact', href: '#/contact' },
   ]
 
   return (
@@ -246,7 +246,7 @@ export default function Experience() {
 
       <nav className="nav">
         <div className="nav-left">
-          <a href="/" className="nav-logo">&lt;SY/&gt;</a>
+          <a href="#/" className="nav-logo">&lt;SY/&gt;</a>
           <div className="nav-sep" />
           <ul className="nav-links">
             {navLinks.map((link) => (
@@ -255,7 +255,7 @@ export default function Experience() {
           </ul>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <a href="/contact" className="nav-cta"><div className="nav-cta-dot" />Available</a>
+          <a href="#/contact" className="nav-cta"><div className="nav-cta-dot" />Available</a>
           <button className={`hamburger${menuOpen ? ' open' : ''}`} onClick={() => setMenuOpen((open) => !open)} aria-label="Menu">
             <span /><span /><span />
           </button>
@@ -293,7 +293,7 @@ export default function Experience() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
-            <a href="/projects" className="btn-ghost">See projects</a>
+            <a href="#/projects" className="btn-ghost">See projects</a>
           </div>
         </div>
 

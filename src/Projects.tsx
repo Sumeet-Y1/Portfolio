@@ -200,12 +200,12 @@ export default function Projects() {
   }
 
   const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'Skills', href: '/skills' },
-    { label: 'Experience', href: '/experience' },
-    { label: 'Projects', href: '/projects' },
-    { label: 'About', href: '/about' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Home', href: '#/' },
+    { label: 'Skills', href: '#/skills' },
+    { label: 'Experience', href: '#/experience' },
+    { label: 'Projects', href: '#/projects' },
+    { label: 'About', href: '#/about' },
+    { label: 'Contact', href: '#/contact' },
   ]
 
   return (
@@ -496,7 +496,7 @@ export default function Projects() {
 
       <nav className="nav">
         <div className="nav-left">
-          <a href="/" className="nav-logo">&lt;SY/&gt;</a>
+          <a href="#/" className="nav-logo">&lt;SY/&gt;</a>
           <div className="nav-sep" />
           <ul className="nav-links">
             {navLinks.map((link) => (
@@ -510,7 +510,7 @@ export default function Projects() {
         </div>
 
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <a href="/contact" className="nav-cta">
+          <a href="#/contact" className="nav-cta">
             <div className="nav-cta-dot" />
             Hire Me
           </a>
@@ -556,7 +556,7 @@ export default function Projects() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
-            <a href="/" className="btn-ghost">Back to home</a>
+            <a href="#/" className="btn-ghost">Back to home</a>
           </div>
         </div>
 

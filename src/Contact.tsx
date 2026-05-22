@@ -48,12 +48,12 @@ export default function Contact() {
   }, [])
 
   const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'Skills', href: '/skills' },
-    { label: 'Experience', href: '/experience' },
-    { label: 'Projects', href: '/projects' },
-    { label: 'About', href: '/about' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Home', href: '#/' },
+    { label: 'Skills', href: '#/skills' },
+    { label: 'Experience', href: '#/experience' },
+    { label: 'Projects', href: '#/projects' },
+    { label: 'About', href: '#/about' },
+    { label: 'Contact', href: '#/contact' },
   ]
 
   return (
@@ -125,7 +125,7 @@ export default function Contact() {
 
       <nav className="nav">
         <div className="nav-left">
-          <a href="/" className="nav-logo">&lt;SY/&gt;</a>
+          <a href="#/" className="nav-logo">&lt;SY/&gt;</a>
           <div className="nav-sep" />
           <ul className="nav-links">
             {navLinks.map((link) => (
@@ -134,7 +134,7 @@ export default function Contact() {
           </ul>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <a href="/contact" className="nav-cta"><div className="nav-cta-dot" />Available</a>
+          <a href="#/contact" className="nav-cta"><div className="nav-cta-dot" />Available</a>
           <button className={`hamburger${menuOpen ? ' open' : ''}`} onClick={() => setMenuOpen((open) => !open)} aria-label="Menu">
             <span /><span /><span />
           </button>
@@ -144,7 +144,7 @@ export default function Contact() {
       <section className="page">
         <div className="grid-frame">
           <div className="cell cell-topbar">
-            <a href="/" className="back-btn">
+            <a href="#/" className="back-btn">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>

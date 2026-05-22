@@ -147,12 +147,12 @@ export default function About() {
   }
 
   const navLinks = [
-    { label: 'Home', href: '/' },
-    { label: 'Skills', href: '/skills' },
-    { label: 'Experience', href: '/experience' },
-    { label: 'Projects', href: '/projects' },
-    { label: 'About', href: '/about' },
-    { label: 'Contact', href: '/contact' },
+    { label: 'Home', href: '#/' },
+    { label: 'Skills', href: '#/skills' },
+    { label: 'Experience', href: '#/experience' },
+    { label: 'Projects', href: '#/projects' },
+    { label: 'About', href: '#/about' },
+    { label: 'Contact', href: '#/contact' },
   ]
 
   return (
@@ -309,7 +309,7 @@ export default function About() {
 
       <nav className="nav">
         <div className="nav-left">
-          <a href="/" className="nav-logo">&lt;SY/&gt;</a>
+          <a href="#/" className="nav-logo">&lt;SY/&gt;</a>
           <div className="nav-sep" />
           <ul className="nav-links">
             {navLinks.map((link) => (
@@ -318,7 +318,7 @@ export default function About() {
           </ul>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-          <a href="/contact" className="nav-cta"><div className="nav-cta-dot" />Get in touch</a>
+          <a href="#/contact" className="nav-cta"><div className="nav-cta-dot" />Get in touch</a>
           <button className={`hamburger${menuOpen ? ' open' : ''}`} onClick={() => setMenuOpen((open) => !open)} aria-label="Menu">
             <span /><span /><span />
           </button>
@@ -356,7 +356,7 @@ export default function About() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
-            <a href="/projects" className="btn-ghost">See projects</a>
+            <a href="#/projects" className="btn-ghost">See projects</a>
           </div>
         </div>
 
@@ -530,13 +530,13 @@ export default function About() {
             If you are looking for someone who values both technical depth and execution, this portfolio reflects that approach.
           </p>
           <div className="cta-actions">
-            <a href="/contact" className="btn-primary">
+            <a href="#/contact" className="btn-primary">
               Get In Touch
               <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
               </svg>
             </a>
-            <a href="/projects" className="btn-ghost">See my work</a>
+            <a href="#/projects" className="btn-ghost">See my work</a>
           </div>
         </div>
       </section>
