@@ -75,8 +75,11 @@ export default function About() {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [visible, setVisible] = useState<Record<number, boolean>>({})
-  const [spotify, setSpotify] = useState<SpotifyState | null>(null)
-  const [spotifyLoading, setSpotifyLoading] = useState(true)
+  const [spotify] = useState<SpotifyState>({
+    status: 'offline',
+    message: 'Music activity is temporarily unavailable while the Cloudflare deploy is running without the Spotify function.',
+  })
+  const [spotifyLoading] = useState(false)
   const refs = useRef<(HTMLElement | null)[]>([])
 
   useEffect(() => {
@@ -106,40 +109,6 @@ export default function About() {
       observers.push(observer)
     })
     return () => observers.forEach((observer) => observer.disconnect())
-  }, [])
-
-  useEffect(() => {
-    let active = true
-
-    const loadSpotify = async () => {
-      try {
-        const response = await fetch('/api/spotify')
-        if (!response.ok) {
-          throw new Error('Failed to load Spotify state')
-        }
-
-        const payload = (await response.json()) as SpotifyState
-        if (active) {
-          setSpotify(payload)
-        }
-      } catch {
-        if (active) {
-          setSpotify({ status: 'offline' })
-        }
-      } finally {
-        if (active) {
-          setSpotifyLoading(false)
-        }
-      }
-    }
-
-    loadSpotify()
-    const interval = window.setInterval(loadSpotify, 60000)
-
-    return () => {
-      active = false
-      window.clearInterval(interval)
-    }
   }, [])
 
   const r = (index: number) => (el: HTMLElement | null) => {
