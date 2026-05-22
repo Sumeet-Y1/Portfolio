@@ -57,12 +57,12 @@ export default function Home() {
   const r = (i: number) => (el: HTMLElement | null) => { refs.current[i] = el }
 
   const NAV_LINKS = [
-    { label: 'Home',       href: '#/'           },
-    { label: 'Skills',     href: '#/skills'    },
-    { label: 'Experience', href: '#/experience' },
-    { label: 'Projects',   href: '#/projects'   },
-    { label: 'About',      href: '#/about'      },
-    { label: 'Contact',    href: '#/contact'    },
+    { label: 'Home',       href: '/'            },
+    { label: 'Skills',     href: '/skills'      },
+    { label: 'Experience', href: '/experience'  },
+    { label: 'Projects',   href: '/projects'    },
+    { label: 'About',      href: '/about'       },
+    { label: 'Contact',    href: '/contact'     },
   ]
 
   return (
@@ -291,7 +291,7 @@ export default function Home() {
         {NAV_LINKS.map(l => (
           <a key={l.label} href={l.href} onClick={() => setMenuOpen(false)}>{l.label}</a>
         ))}
-        <a href="#/contact" className="mobile-menu-cta" onClick={() => setMenuOpen(false)}>
+        <a href="/contact" className="mobile-menu-cta" onClick={() => setMenuOpen(false)}>
           <div className="nav-cta-dot"/>
           Contact Me
         </a>
@@ -300,14 +300,14 @@ export default function Home() {
       {/* NAV */}
       <nav className="nav">
         <div className="nav-left">
-          <a href="#" className="nav-logo">&lt;SY/&gt;</a>
+          <a href="/" className="nav-logo">&lt;SY/&gt;</a>
           <div className="nav-sep"/>
           <ul className="nav-links">
             {NAV_LINKS.map(l => <li key={l.label}><a href={l.href}>{l.label}</a></li>)}
           </ul>
         </div>
         <div style={{ display:'flex', alignItems:'center', gap:'1rem' }}>
-          <a href="#/contact" className="nav-cta">
+          <a href="/contact" className="nav-cta">
             <div className="nav-cta-dot"/>
             Contact Me
           </a>
@@ -349,7 +349,7 @@ export default function Home() {
               The focus is on software that is reliable, maintainable, and ready for real use.
             </p>
             <div className="hero-actions">
-              <a href="#/projects" className="btn-primary">
+              <a href="/projects" className="btn-primary">
                 View Projects
                 <svg width="11" height="11" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/>
@@ -402,7 +402,7 @@ export default function Home() {
               <p>Focused on microservices, AWS, and continuous growth as an engineer. I value clear architecture, dependable systems, and thoughtful user experience.</p>
             </div>
             <div className="about-btns">
-                <a href="#/projects" className="btn-primary" style={{ fontSize:10, padding:'10px 22px' }}>
+                <a href="/projects" className="btn-primary" style={{ fontSize:10, padding:'10px 22px' }}>
                 My Work
                 <svg width="10" height="10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3"/>

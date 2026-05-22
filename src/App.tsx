@@ -6,43 +6,48 @@ import Home from './Home'
 import Projects from './Projects'
 import Skills from './Skills'
 
-const parseHash = () => {
-  const hash = window.location.hash || '#/'
+const parseLocation = () => {
+  const path = window.location.pathname.replace(/\/+$/, '') || '/'
+  const section = window.location.hash.replace(/^#/, '')
 
-  if (hash === '#/skills') {
+  if (path === '/skills') {
     return { route: 'skills', section: '' }
   }
 
-  if (hash === '#/projects') {
+  if (path === '/projects') {
     return { route: 'projects', section: '' }
   }
 
-  if (hash === '#/about') {
+  if (path === '/about') {
     return { route: 'about', section: '' }
   }
 
-  if (hash === '#/contact') {
+  if (path === '/contact') {
     return { route: 'contact', section: '' }
   }
 
-  if (hash === '#/experience') {
+  if (path === '/experience') {
     return { route: 'experience', section: '' }
   }
 
-  if (hash.startsWith('#/')) {
-    return { route: 'home', section: hash.slice(2) }
+  if (path === '/' || path === '') {
+    return { route: 'home', section }
   }
 
   return { route: 'home', section: '' }
 }
 
 export default function App() {
-  const [{ route, section }, setLocation] = useState(parseHash)
+  const [{ route, section }, setLocation] = useState(parseLocation)
 
   useEffect(() => {
-    const onHashChange = () => setLocation(parseHash())
-    window.addEventListener('hashchange', onHashChange)
-    return () => window.removeEventListener('hashchange', onHashChange)
+    const syncLocation = () => setLocation(parseLocation())
+    window.addEventListener('popstate', syncLocation)
+    window.addEventListener('hashchange', syncLocation)
+    return () => {
+      window.removeEventListener('popstate', syncLocation)
+      window.removeEventListener('hashchange', syncLocation)
+    }
   }, [])
 
   useEffect(() => {
