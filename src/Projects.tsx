@@ -99,6 +99,26 @@ const PROJECTS: Project[] = [
     ],
   },
   {
+    id: 'aws-cicd-pipeline',
+    title: 'AWS-CI-CD-Pipeline',
+    date: 'May 2026',
+    icon: 'CICD',
+    summary:
+      'Automated CI/CD pipeline that builds, containerizes, and deploys a Spring Boot application to AWS EC2 on every git push. Infrastructure is provisioned as code with Terraform, enabling zero-manual deployment workflows.',
+    tech: [
+      { label: 'GitHub Actions', logo: 'https://icon.icepanel.io/Technology/svg/GitHub-Actions.svg' },
+      { label: 'Docker', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+      { label: 'AWS ECR', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+      { label: 'AWS EC2', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+      { label: 'Terraform', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg' },
+      { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
+      { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
+    ],
+    links: [
+      { label: 'Repo', href: 'https://github.com/Sumeet-Y1/AWS-CI-CD-Pipeline' },
+    ],
+  },
+  {
     id: 'aureumpicks',
     title: 'AureumPicks',
     date: 'November 2025',
@@ -156,7 +176,7 @@ const PROJECTS: Project[] = [
 ]
 
 const PROJECT_MARQUEE = ['Production Apps', 'Spring Boot', 'React', 'AWS', 'Cloud Infra', 'Modern UI', 'APIs', 'Microservices']
-const PROJECT_DISPLAY_ORDER = ['pipelineforge', 'sphere', 'prodpulse', 'aureumpicks', 'edapt', 'portfolio']
+const PROJECT_DISPLAY_ORDER = ['pipelineforge', 'aws-cicd-pipeline', 'sphere', 'prodpulse', 'aureumpicks', 'edapt', 'portfolio']
 
 export default function Projects() {
   const [loaded, setLoaded] = useState(false)
@@ -625,7 +645,7 @@ export default function Projects() {
 
         <div className="summary-grid">
           <div className="summary-card">
-            <strong>6</strong>
+            <strong>7</strong>
             <span>Featured Projects</span>
           </div>
           <div className="summary-card">
