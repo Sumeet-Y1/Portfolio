@@ -50,6 +50,24 @@ const PROJECTS: Project[] = [
     ],
   },
   {
+    id: 'aws-eks-pipeline',
+    title: 'AWS-EKS-Pipeline',
+    date: 'May 2026',
+    icon: 'EKS',
+    summary:
+      'Production-grade CI/CD pipeline that auto-deploys a Spring Boot application to AWS on every git push. Jenkins self-hosted on EC2 builds Docker images and deploys to a Kubernetes cluster provisioned via Terraform with AWS Load Balancer for traffic distribution.',
+    tech: [
+      { label: 'Jenkins', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg' },
+      { label: 'Docker', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+      { label: 'AWS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+      { label: 'Kubernetes', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg' },
+      { label: 'Terraform', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg' },
+      { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
+      { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
+    ],
+    links: [],
+  },
+  {
     id: 'pipelineforge',
     title: 'PipelineForge',
     date: 'Active Development · 2026',
@@ -176,7 +194,7 @@ const PROJECTS: Project[] = [
 ]
 
 const PROJECT_MARQUEE = ['Production Apps', 'Spring Boot', 'React', 'AWS', 'Cloud Infra', 'Modern UI', 'APIs', 'Microservices']
-const PROJECT_DISPLAY_ORDER = ['pipelineforge', 'aws-cicd-pipeline', 'sphere', 'prodpulse', 'aureumpicks', 'edapt', 'portfolio']
+const PROJECT_DISPLAY_ORDER = ['pipelineforge', 'aws-eks-pipeline', 'aws-cicd-pipeline', 'sphere', 'prodpulse', 'aureumpicks', 'edapt', 'portfolio']
 
 export default function Projects() {
   const [loaded, setLoaded] = useState(false)
@@ -645,7 +663,7 @@ export default function Projects() {
 
         <div className="summary-grid">
           <div className="summary-card">
-            <strong>7</strong>
+            <strong>8</strong>
             <span>Featured Projects</span>
           </div>
           <div className="summary-card">
