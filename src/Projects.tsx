@@ -135,7 +135,7 @@ const PROJECTS: Project[] = [
       { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
     ],
     links: [
-      { label: 'Repo', href: 'https://github.com/Sumeet-Y1/AWS-CI-CD-Pipeline' },
+      { label: 'View Code', href: 'https://github.com/Sumeet-Y1/AWS-CI-CD-Pipeline' },
     ],
   },
   {
