@@ -65,7 +65,9 @@ const PROJECTS: Project[] = [
       { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
       { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
     ],
-    links: [],
+    links: [
+      { label: 'View Code', href: 'https://github.com/Sumeet-Y1/aws-eks-pipeline' },
+    ],
   },
   {
     id: 'pipelineforge',
