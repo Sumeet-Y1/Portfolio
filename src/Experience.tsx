@@ -85,13 +85,15 @@ const EXPERIENCES: ExperienceItem[] = [
     date: 'May 2026',
     logo: 'https://www.theforage.com/_next/image?url=https%3A%2F%2Fcdn.theforage.com%2Fvinternships%2Fcompanyassets%2FmfxGwGDp6WkQmtmTf%2FyW72wwdbM42ys4WXg%2F1770349782539%2Fmastercard.png&w=640&q=75',
     bullets: [
-      'Completed a job simulation where I served as an analyst on Mastercard’s Security Awareness Team.',
+      "Completed a job simulation where I served as an analyst on Mastercard's Security Awareness Team.",
       'Helped identify and report security threats such as phishing.',
       'Analyzed which areas of the business needed more robust security training and implemented training courses and procedures for those teams.',
     ],
     certificate: 'https://www.theforage.com/completion-certificates/mfxGwGDp6WkQmtmTf/vcKAB5yYAgvemepGQ_mfxGwGDp6WkQmtmTf_68cb08cb0b0b9899833e6350_1779517504931_completion_certificate.pdf',
   },
 ]
+
+const EXPERIENCE_DISPLAY_ORDER = ['mastercard', 'aws', 'walmart', 'datacom', 'ea', 'jpmorgan']
 
 export default function Experience() {
   const [loaded, setLoaded] = useState(false)
@@ -355,7 +357,7 @@ export default function Experience() {
       <div className="ticker">
         <div className="ticker-track">
           {[...Array(2)].map((_, repeatIndex) =>
-            ['JPMorgan', 'Mastercard', 'AWS', 'Walmart', 'Datacom', 'Electronic Arts', 'Forage'].map((item, itemIndex) => (
+            ['Mastercard', 'JPMorgan', 'AWS', 'Walmart', 'Datacom', 'Electronic Arts', 'Forage'].map((item, itemIndex) => (
               <span key={`${repeatIndex}-${itemIndex}`} className="ticker-item">
                 {item}
                 <span className="ticker-sep" />
@@ -374,7 +376,9 @@ export default function Experience() {
         </p>
 
         <div className="exp-list">
-          {EXPERIENCES.map((item, index) => (
+          {[...EXPERIENCES]
+            .sort((a, b) => EXPERIENCE_DISPLAY_ORDER.indexOf(a.id) - EXPERIENCE_DISPLAY_ORDER.indexOf(b.id))
+            .map((item, index) => (
             <article key={item.id} className="exp-card" style={{ animationDelay: `${index * 90}ms` } as CSSProperties}>
               <div className="exp-header">
                 <div className="exp-company">
@@ -415,7 +419,7 @@ export default function Experience() {
                 </a>
               </div>
             </article>
-          ))}
+            ))}
         </div>
       </section>
 

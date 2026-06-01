@@ -24,8 +24,6 @@ const SKILL_GROUPS: SkillGroup[] = [
     items: [
       { label: 'Java', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' },
       { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
-      { label: 'Spring Security', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
-      { label: 'Spring AI', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
       { label: 'JWT' },
       { label: 'REST APIs' },
     ],
@@ -35,12 +33,12 @@ const SKILL_GROUPS: SkillGroup[] = [
     number: '02',
     title: 'Data Layer',
     icon: '[]',
-    summary: 'Relational data modeling and persistence patterns built for clean queries, stable schema evolution, and fast delivery.',
+    summary: 'Relational data modeling and database design built for clean queries, stable schema evolution, and fast delivery.',
     proficiency: 80,
     items: [
       { label: 'MySQL', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg' },
-      { label: 'SQL' },
-      { label: 'Spring Data JPA', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
+      { label: 'PostgreSQL', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg' },
+      { label: 'MongoDB', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg' },
     ],
   },
   {
@@ -53,10 +51,12 @@ const SKILL_GROUPS: SkillGroup[] = [
     items: [
       { label: 'AWS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
       { label: 'Docker', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+      { label: 'Grafana', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg' },
+      { label: 'Prometheus', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prometheus/prometheus-original.svg' },
       { label: 'Nginx', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg' },
       { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
       { label: 'Terraform', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg' },
-      { label: 'GitHub', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg' },
+      { label: 'GitHub', logo: 'https://cdn.simpleicons.org/github/ffffff' },
     ],
   },
   {

@@ -55,13 +55,15 @@ const PROJECTS: Project[] = [
     date: 'May 2026',
     icon: 'EKS',
     summary:
-      'Production-grade CI/CD pipeline that auto-deploys a Spring Boot application to AWS on every git push. Jenkins self-hosted on EC2 builds Docker images and deploys to a Kubernetes cluster provisioned via Terraform with AWS Load Balancer for traffic distribution.',
+      'Production-grade CI/CD pipeline that auto-deploys a Spring Boot application to AWS EKS on every git push. Jenkins self-hosted on EC2 builds Docker images, pushes to AWS ECR, and deploys to a Kubernetes cluster provisioned via Terraform with AWS Load Balancer for traffic distribution. Real-time cluster monitoring via Prometheus & Grafana deployed using Helm.',
     tech: [
       { label: 'Jenkins', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/jenkins/jenkins-original.svg' },
       { label: 'Docker', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
       { label: 'AWS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
       { label: 'Kubernetes', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg' },
       { label: 'Terraform', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg' },
+      { label: 'Grafana', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg' },
+      { label: 'Prometheus', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prometheus/prometheus-original.svg' },
       { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
       { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
     ],
