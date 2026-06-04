@@ -219,7 +219,8 @@ const PROJECTS: Project[] = [
 ]
 
 const PROJECT_MARQUEE = ['Production Apps', 'Spring Boot', 'React', 'AWS', 'Cloud Infra', 'Modern UI', 'APIs', 'Microservices']
-const PROJECT_DISPLAY_ORDER = ['pipelineforge', 'aws-auto-scale-api', 'aws-eks-pipeline', 'aws-cicd-pipeline', 'sphere', 'prodpulse', 'aureumpicks', 'edapt', 'portfolio']
+const DEVOPS_PROJECT_ORDER = ['pipelineforge', 'aws-auto-scale-api', 'aws-eks-pipeline', 'aws-cicd-pipeline']
+const DEV_PROJECT_ORDER = ['sphere', 'prodpulse', 'aureumpicks', 'edapt', 'portfolio']
 
 export default function Projects() {
   const [loaded, setLoaded] = useState(false)
@@ -270,6 +271,12 @@ export default function Projects() {
     { label: 'About', href: '/about' },
     { label: 'Contact', href: '/contact' },
   ]
+
+  const devopsProjects = [...PROJECTS].filter((project) => DEVOPS_PROJECT_ORDER.includes(project.id))
+    .sort((a, b) => DEVOPS_PROJECT_ORDER.indexOf(a.id) - DEVOPS_PROJECT_ORDER.indexOf(b.id))
+
+  const devProjects = [...PROJECTS].filter((project) => DEV_PROJECT_ORDER.includes(project.id))
+    .sort((a, b) => DEV_PROJECT_ORDER.indexOf(a.id) - DEV_PROJECT_ORDER.indexOf(b.id))
 
   return (
     <>
@@ -453,6 +460,17 @@ export default function Projects() {
           margin-top: 1.2rem; max-width: 760px; font-size: 14px; line-height: 1.95; color: rgba(255,255,255,.28); font-weight: 300;
         }
         .project-list { margin-top: 4rem; display: grid; gap: 1.7rem; }
+        .project-group { display: grid; gap: 1.1rem; }
+        .project-group + .project-group { margin-top: 3.5rem; }
+        .project-group-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+        .project-group-title {
+          font-family: 'Playfair Display', serif; font-size: clamp(24px, 2.6vw, 34px); font-weight: 900;
+          color: rgba(255,255,255,.92); letter-spacing: -.02em;
+        }
+        .project-group-note {
+          font-family: 'JetBrains Mono', monospace; font-size: .66rem; letter-spacing: .18em; text-transform: uppercase;
+          color: rgba(255,255,255,.22);
+        }
         .project-card {
           position: relative; padding: 2rem; border-radius: 24px;
           border: 1px solid rgba(255,255,255,.07);
@@ -702,69 +720,147 @@ export default function Projects() {
         </div>
 
         <div className="project-list">
-          {[...PROJECTS]
-            .sort((a, b) => PROJECT_DISPLAY_ORDER.indexOf(a.id) - PROJECT_DISPLAY_ORDER.indexOf(b.id))
-            .map((project, index) => (
-            <article
-              key={project.id}
-              className={`project-card${project.status ? ' uc' : ''}`}
-              style={{ animationDelay: `${index * 90}ms` } as CSSProperties}
-            >
-              {project.status ? <div className="status-badge">{project.status.label}</div> : null}
-
-              <div className="project-head">
-                <div>
-                  <h3 className="project-title">{project.title}</h3>
-                  <div className="project-date">{project.date}</div>
-                </div>
-                <div className="project-icon">{project.icon}</div>
+          <div className="project-group">
+            <div className="project-group-head">
+              <div>
+                <div className="eyebrow">DevOps & Cloud</div>
+                <div className="project-group-title">Infrastructure, pipelines, and observability</div>
               </div>
+              <div className="project-group-note">4 projects</div>
+            </div>
+            {devopsProjects.map((project, index) => (
+              <article
+                key={project.id}
+                className={`project-card${project.status ? ' uc' : ''}`}
+                style={{ animationDelay: `${index * 90}ms` } as CSSProperties}
+              >
+                {project.status ? <div className="status-badge">{project.status.label}</div> : null}
 
-              <p className="project-desc">{project.summary}</p>
-
-              {project.status ? (
-                <>
-                  <div className="progress-wrap">
-                    <div className="progress-bar">
-                      <div className="progress-fill" style={{ width: `${project.status.progress}%` }} />
-                    </div>
-                    <div className="progress-info">
-                      <span>Development Progress</span>
-                      <span className="progress-pct">{project.status.progress}%</span>
-                    </div>
+                <div className="project-head">
+                  <div>
+                    <h3 className="project-title">{project.title}</h3>
+                    <div className="project-date">{project.date}</div>
                   </div>
-                  <p className="launch-note">{project.status.note}</p>
-                </>
-              ) : null}
+                  <div className="project-icon">{project.icon}</div>
+                </div>
 
-              <div className="tech-list">
-                {project.tech.map((item) => (
-                  <span key={`${project.id}-${item.label}`} className="tech-tag">
-                    {item.logo ? (
-                      <img src={item.logo} alt={item.label} className="tech-logo" />
-                    ) : (
-                      <span className="tech-dot" />
-                    )}
-                    {item.label}
-                  </span>
-                ))}
-              </div>
+                <p className="project-desc">{project.summary}</p>
 
-              <div className="link-row">
-                {project.links.map((link) => (
-                  <a
-                    key={`${project.id}-${link.label}`}
-                    href={link.href}
-                    target="_blank"
-                    rel="noreferrer"
-                    className={`project-link ${link.variant === 'outline' ? 'outline' : 'primary'}`}
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </div>
-            </article>
+                {project.status ? (
+                  <>
+                    <div className="progress-wrap">
+                      <div className="progress-bar">
+                        <div className="progress-fill" style={{ width: `${project.status.progress}%` }} />
+                      </div>
+                      <div className="progress-info">
+                        <span>Development Progress</span>
+                        <span className="progress-pct">{project.status.progress}%</span>
+                      </div>
+                    </div>
+                    <p className="launch-note">{project.status.note}</p>
+                  </>
+                ) : null}
+
+                <div className="tech-list">
+                  {project.tech.map((item) => (
+                    <span key={`${project.id}-${item.label}`} className="tech-tag">
+                      {item.logo ? (
+                        <img src={item.logo} alt={item.label} className="tech-logo" />
+                      ) : (
+                        <span className="tech-dot" />
+                      )}
+                      {item.label}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="link-row">
+                  {project.links.map((link) => (
+                    <a
+                      key={`${project.id}-${link.label}`}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`project-link ${link.variant === 'outline' ? 'outline' : 'primary'}`}
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              </article>
             ))}
+          </div>
+
+          <div className="project-group">
+            <div className="project-group-head">
+              <div>
+                <div className="eyebrow">Development</div>
+                <div className="project-group-title">Applications and product builds</div>
+              </div>
+              <div className="project-group-note">5 projects</div>
+            </div>
+            {devProjects.map((project, index) => (
+              <article
+                key={project.id}
+                className={`project-card${project.status ? ' uc' : ''}`}
+                style={{ animationDelay: `${index * 90}ms` } as CSSProperties}
+              >
+                {project.status ? <div className="status-badge">{project.status.label}</div> : null}
+
+                <div className="project-head">
+                  <div>
+                    <h3 className="project-title">{project.title}</h3>
+                    <div className="project-date">{project.date}</div>
+                  </div>
+                  <div className="project-icon">{project.icon}</div>
+                </div>
+
+                <p className="project-desc">{project.summary}</p>
+
+                {project.status ? (
+                  <>
+                    <div className="progress-wrap">
+                      <div className="progress-bar">
+                        <div className="progress-fill" style={{ width: `${project.status.progress}%` }} />
+                      </div>
+                      <div className="progress-info">
+                        <span>Development Progress</span>
+                        <span className="progress-pct">{project.status.progress}%</span>
+                      </div>
+                    </div>
+                    <p className="launch-note">{project.status.note}</p>
+                  </>
+                ) : null}
+
+                <div className="tech-list">
+                  {project.tech.map((item) => (
+                    <span key={`${project.id}-${item.label}`} className="tech-tag">
+                      {item.logo ? (
+                        <img src={item.logo} alt={item.label} className="tech-logo" />
+                      ) : (
+                        <span className="tech-dot" />
+                      )}
+                      {item.label}
+                    </span>
+                  ))}
+                </div>
+
+                <div className="link-row">
+                  {project.links.map((link) => (
+                    <a
+                      key={`${project.id}-${link.label}`}
+                      href={link.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className={`project-link ${link.variant === 'outline' ? 'outline' : 'primary'}`}
+                    >
+                      {link.label}
+                    </a>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
