@@ -28,6 +28,25 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
+    id: 'aws-blue-green-deployment',
+    title: 'AWS Blue-Green Deployment',
+    date: 'June 2026',
+    icon: 'BGD',
+    summary:
+      'An automated, zero-downtime deployment pipeline utilizing an AWS Application Load Balancer to flawlessly alternate traffic between active and standby EC2 instances on every code push. Features fully automated environment detection, rigid container health checks before traffic flipping, and an instant 5-second rollback design. Built with Spring Boot 3.5, containerized with Docker, managed in AWS ECR, and fully provisioned via Terraform infrastructure as code.',
+    tech: [
+      { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
+      { label: 'Docker', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+      { label: 'AWS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+      { label: 'Terraform', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg' },
+      { label: 'GitHub Actions', logo: 'https://icon.icepanel.io/Technology/svg/GitHub-Actions.svg' },
+      { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
+    ],
+    links: [
+      { label: 'View Code', href: 'https://github.com/Sumeet-Y1/aws-blue-green-deployment' },
+    ],
+  },
+  {
     id: 'aws-auto-scale-api',
     title: 'AWS Auto-Scale API',
     date: 'June 2026',
@@ -219,7 +238,7 @@ const PROJECTS: Project[] = [
 ]
 
 const PROJECT_MARQUEE = ['Production Apps', 'Spring Boot', 'React', 'AWS', 'Cloud Infra', 'Modern UI', 'APIs', 'Microservices']
-const DEVOPS_PROJECT_ORDER = ['pipelineforge', 'aws-auto-scale-api', 'aws-eks-pipeline', 'aws-cicd-pipeline']
+const DEVOPS_PROJECT_ORDER = ['pipelineforge', 'aws-blue-green-deployment', 'aws-auto-scale-api', 'aws-eks-pipeline', 'aws-cicd-pipeline']
 const DEV_PROJECT_ORDER = ['sphere', 'prodpulse', 'aureumpicks', 'edapt', 'portfolio']
 
 export default function Projects() {
@@ -706,7 +725,7 @@ export default function Projects() {
 
         <div className="summary-grid">
           <div className="summary-card">
-            <strong>9</strong>
+            <strong>10</strong>
             <span>Featured Projects</span>
           </div>
           <div className="summary-card">
@@ -726,7 +745,7 @@ export default function Projects() {
                 <div className="eyebrow">DevOps & Cloud</div>
                 <div className="project-group-title">Infrastructure, pipelines, and observability</div>
               </div>
-              <div className="project-group-note">4 projects</div>
+              <div className="project-group-note">5 projects</div>
             </div>
             {devopsProjects.map((project, index) => (
               <article
