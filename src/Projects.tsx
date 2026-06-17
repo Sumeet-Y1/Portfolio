@@ -28,25 +28,6 @@ type Project = {
 
 const PROJECTS: Project[] = [
   {
-    id: 'aws-blue-green-deployment',
-    title: 'AWS Blue-Green Deployment',
-    date: 'June 2026',
-    icon: 'BGD',
-    summary:
-      'An automated, zero-downtime deployment pipeline utilizing an AWS Application Load Balancer to flawlessly alternate traffic between active and standby EC2 instances on every code push. Features fully automated environment detection, rigid container health checks before traffic flipping, and an instant 5-second rollback design. Built with Spring Boot 3.5, containerized with Docker, managed in AWS ECR, and fully provisioned via Terraform infrastructure as code.',
-    tech: [
-      { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
-      { label: 'Docker', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
-      { label: 'AWS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
-      { label: 'Terraform', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg' },
-      { label: 'GitHub Actions', logo: 'https://icon.icepanel.io/Technology/svg/GitHub-Actions.svg' },
-      { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
-    ],
-    links: [
-      { label: 'View Code', href: 'https://github.com/Sumeet-Y1/aws-blue-green-deployment' },
-    ],
-  },
-  {
     id: 'aws-auto-scale-api',
     title: 'AWS Auto-Scale API',
     date: 'June 2026',
@@ -65,6 +46,26 @@ const PROJECTS: Project[] = [
     ],
     links: [
       { label: 'View Code', href: 'https://github.com/Sumeet-Y1/aws-autoscale-api' },
+    ],
+  },
+  {
+    id: 'aws-devsecops-pipeline',
+    title: 'AWS DevSecOps Pipeline',
+    date: 'June 2026',
+    icon: 'SEC',
+    summary:
+      'A secure, fully automated CI/CD infrastructure that implements multi-layered security gates before deploying containerized applications to AWS. Features integrated GitLeaks, OWASP Dependency Check, and Trivy container scanning to automatically block deployments on any high-severity CVEs or exposed secrets. Engineered using a Spring Boot 3.5 core, containerized with Docker, tracked in AWS ECR, and fully provisioned with a 19-resource Terraform infrastructure blueprint.',
+    tech: [
+      { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
+      { label: 'Docker', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+      { label: 'AWS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+      { label: 'Terraform', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg' },
+      { label: 'GitHub Actions', logo: 'https://icon.icepanel.io/Technology/svg/GitHub-Actions.svg' },
+      { label: 'Security (Trivy/OWASP)' },
+      { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
+    ],
+    links: [
+      { label: 'View Code', href: 'https://github.com/Sumeet-Y1/aws-devsecops-pipeline' },
     ],
   },
   {
@@ -238,7 +239,7 @@ const PROJECTS: Project[] = [
 ]
 
 const PROJECT_MARQUEE = ['Production Apps', 'Spring Boot', 'React', 'AWS', 'Cloud Infra', 'Modern UI', 'APIs', 'Microservices']
-const DEVOPS_PROJECT_ORDER = ['pipelineforge', 'aws-blue-green-deployment', 'aws-auto-scale-api', 'aws-eks-pipeline', 'aws-cicd-pipeline']
+const DEVOPS_PROJECT_ORDER = ['pipelineforge', 'aws-auto-scale-api', 'aws-devsecops-pipeline', 'aws-eks-pipeline', 'aws-cicd-pipeline']
 const DEV_PROJECT_ORDER = ['sphere', 'prodpulse', 'aureumpicks', 'edapt', 'portfolio']
 
 export default function Projects() {
