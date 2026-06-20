@@ -69,6 +69,23 @@ const PROJECTS: Project[] = [
     ],
   },
   {
+    id: 'aws-vpc-architecture',
+    title: 'AWS VPC Architecture',
+    date: 'June 2026',
+    icon: 'VPC',
+    summary:
+      'A production-grade, highly available 3-tier VPC architecture engineered on AWS across two Availability Zones to enforce strict network isolation. Provisioned entirely as code via a 26-resource Terraform configuration, the infrastructure segregates workloads into distinct public and private subnets. Live web traffic enters safely through an Application Load Balancer (ALB), routing seamlessly to internal Nginx application servers and an isolated Amazon RDS MySQL database housed completely within private subnets. Secure maintenance is achieved through an ephemeral Bastion Host acting as an SSH jump box, while isolated outbound internet connectivity for private instances is strictly brokered by a NAT Gateway.',
+    tech: [
+      { label: 'Terraform', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg' },
+      { label: 'AWS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+      { label: 'Nginx', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nginx/nginx-original.svg' },
+      { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
+    ],
+    links: [
+      { label: 'View Code', href: 'https://github.com/Sumeet-Y1/aws-vpc-architecture' },
+    ],
+  },
+  {
     id: 'sphere',
     title: 'Sphere',
     date: 'May 2026',
@@ -239,7 +256,14 @@ const PROJECTS: Project[] = [
 ]
 
 const PROJECT_MARQUEE = ['Production Apps', 'Spring Boot', 'React', 'AWS', 'Cloud Infra', 'Modern UI', 'APIs', 'Microservices']
-const DEVOPS_PROJECT_ORDER = ['pipelineforge', 'aws-auto-scale-api', 'aws-devsecops-pipeline', 'aws-eks-pipeline', 'aws-cicd-pipeline']
+const DEVOPS_PROJECT_ORDER = [
+  'pipelineforge',
+  'aws-auto-scale-api',
+  'aws-devsecops-pipeline',
+  'aws-vpc-architecture',
+  'aws-eks-pipeline',
+  'aws-cicd-pipeline',
+]
 const DEV_PROJECT_ORDER = ['sphere', 'prodpulse', 'aureumpicks', 'edapt', 'portfolio']
 
 export default function Projects() {
@@ -726,7 +750,7 @@ export default function Projects() {
 
         <div className="summary-grid">
           <div className="summary-card">
-            <strong>10</strong>
+            <strong>11</strong>
             <span>Featured Projects</span>
           </div>
           <div className="summary-card">
@@ -746,7 +770,7 @@ export default function Projects() {
                 <div className="eyebrow">DevOps & Cloud</div>
                 <div className="project-group-title">Infrastructure, pipelines, and observability</div>
               </div>
-              <div className="project-group-note">5 projects</div>
+              <div className="project-group-note">6 projects</div>
             </div>
             {devopsProjects.map((project, index) => (
               <article
