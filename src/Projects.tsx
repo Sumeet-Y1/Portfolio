@@ -130,30 +130,24 @@ const PROJECTS: Project[] = [
     ],
   },
   {
-    id: 'pipelineforge',
-    title: 'PipelineForge',
-    date: 'Active Development · 2026',
-    icon: 'CFG',
+    id: 'aws-ec2-autoscale-api-v2',
+    title: 'AWS EC2 Auto-Scale API v2',
+    date: 'July 2026',
+    icon: 'EC2',
     summary:
-      'Enterprise-grade async task processing platform with microservices architecture, CI/CD automation, and AWS infrastructure provisioned via Terraform. Built around distributed job processing, containerized deployment, and observability from day one.',
+      'Production-grade auto-scaling infrastructure on AWS that sustained 10,000 requests/second across 30 EC2 instances with a 99.7% success rate under real CPU-bound load. Infrastructure provisioned entirely as code using Terraform - VPC across 3 Availability Zones, Application Load Balancer, and an Auto Scaling Group with target-tracking scaling on request count rather than CPU. Hit and resolved two real infrastructure constraints along the way: an AWS account vCPU quota limit and a client-side load-generator bottleneck, both diagnosed using CloudWatch and AWS scaling logs. GitHub Actions CI/CD pipeline builds and pushes to ECR on every commit.',
     tech: [
-      { label: 'Java', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg' },
       { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
-      { label: 'GitHub Actions', logo: 'https://icon.icepanel.io/Technology/svg/GitHub-Actions.svg' },
       { label: 'Docker', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
-      { label: 'Terraform', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg' },
       { label: 'AWS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
-      { label: 'MySQL', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mysql/mysql-original.svg' },
+      { label: 'Terraform', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg' },
+      { label: 'GitHub Actions', logo: 'https://icon.icepanel.io/Technology/svg/GitHub-Actions.svg' },
+      { label: 'k6', logo: 'https://cdn.simpleicons.org/k6/7D64FF' },
+      { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
     ],
     links: [
-      { label: 'View Code', href: 'https://github.com/Sumeet-Y1/PipeLine-Forage' },
-      { label: 'Documentation', href: 'https://documentation-underconstruction.netlify.app/', variant: 'outline' },
+      { label: 'View Code', href: 'https://github.com/Sumeet-Y1/aws-ec2-autoscale-10k-rps' },
     ],
-    status: {
-      label: 'Building in Progress',
-      progress: 70,
-      note: 'Expected launch: Q2 2026 · Live demo coming soon',
-    },
   },
   {
     id: 'prodpulse',
@@ -257,7 +251,7 @@ const PROJECTS: Project[] = [
 
 const PROJECT_MARQUEE = ['Production Apps', 'Spring Boot', 'React', 'AWS', 'Cloud Infra', 'Modern UI', 'APIs', 'Microservices']
 const DEVOPS_PROJECT_ORDER = [
-  'pipelineforge',
+  'aws-ec2-autoscale-api-v2',
   'aws-auto-scale-api',
   'aws-devsecops-pipeline',
   'aws-vpc-architecture',
@@ -758,8 +752,8 @@ export default function Projects() {
             <span>Live Public Demos</span>
           </div>
           <div className="summary-card">
-            <strong>70%</strong>
-            <span>PipelineForge Progress</span>
+            <strong>100%</strong>
+            <span>Completed Build</span>
           </div>
         </div>
 
