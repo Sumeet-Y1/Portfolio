@@ -150,6 +150,26 @@ const PROJECTS: Project[] = [
     ],
   },
   {
+    id: 'aws-eks-gitops-argocd',
+    title: 'AWS EKS GitOps with ArgoCD',
+    date: 'July 2026',
+    icon: 'EKS',
+    summary:
+      "GitOps-driven deployment pipeline for a Spring Boot API on AWS EKS, using ArgoCD to continuously reconcile cluster state with Git instead of push-based CI/CD. ArgoCD runs in-cluster and pulls desired state from a Git repo - any manual drift, such as scaling pods via kubectl, gets auto-detected and self-healed within seconds, reverting to what's declared in Git. Infrastructure provisioned entirely via Terraform - EKS control plane, managed node group, and VPC across 2 AZs. Docker images built via multi-stage builds and pushed to a private ECR repo, with nodes authenticating automatically via IAM role and no manual image-pull secrets. Verified end-to-end with a public LoadBalancer endpoint and a live self-heal demo captured on real AWS infrastructure.",
+    tech: [
+      { label: 'Spring Boot', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/spring/spring-original.svg' },
+      { label: 'Docker', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg' },
+      { label: 'AWS', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-original-wordmark.svg' },
+      { label: 'Terraform', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg' },
+      { label: 'Kubernetes (EKS)', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg' },
+      { label: 'ArgoCD', logo: 'https://cdn.simpleicons.org/argo/EF7B4D' },
+      { label: 'Linux', logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg' },
+    ],
+    links: [
+      { label: 'View Code', href: 'https://github.com/Sumeet-Y1/aws-eks-gitops-argocd' },
+    ],
+  },
+  {
     id: 'prodpulse',
     title: 'ProdPulse.AI',
     date: 'January 2026',
@@ -251,6 +271,7 @@ const PROJECTS: Project[] = [
 
 const PROJECT_MARQUEE = ['Production Apps', 'Spring Boot', 'React', 'AWS', 'Cloud Infra', 'Modern UI', 'APIs', 'Microservices']
 const DEVOPS_PROJECT_ORDER = [
+  'aws-eks-gitops-argocd',
   'aws-ec2-autoscale-api-v2',
   'aws-auto-scale-api',
   'aws-devsecops-pipeline',
@@ -744,7 +765,7 @@ export default function Projects() {
 
         <div className="summary-grid">
           <div className="summary-card">
-            <strong>11</strong>
+            <strong>12</strong>
             <span>Featured Projects</span>
           </div>
           <div className="summary-card">
@@ -764,7 +785,7 @@ export default function Projects() {
                 <div className="eyebrow">DevOps & Cloud</div>
                 <div className="project-group-title">Infrastructure, pipelines, and observability</div>
               </div>
-              <div className="project-group-note">6 projects</div>
+              <div className="project-group-note">7 projects</div>
             </div>
             {devopsProjects.map((project, index) => (
               <article
